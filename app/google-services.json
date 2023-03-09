@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "490419919962",
+    "project_id": "healthgrind-4aa0e",
+    "storage_bucket": "healthgrind-4aa0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:490419919962:android:b5c37700a15dfc95b70c63",
+        "android_client_info": {
+          "package_name": "com.example.healthgrind"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "490419919962-j3uo6oepa2dgfkunlfo25q1r1cmfompr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo4ky8WfO7rtZgM8mIvNwuTPDScmbLnho"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "490419919962-j3uo6oepa2dgfkunlfo25q1r1cmfompr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

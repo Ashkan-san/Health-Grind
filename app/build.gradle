@@ -1,0 +1,121 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    // Firebase Plugin
+    id 'com.google.gms.google-services'
+}
+
+android {
+    namespace 'com.example.healthgrind'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.example.healthgrind"
+        minSdk 30
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        manifestPlaceholders = [MAPS_API_KEY: "${properties.getProperty('MAPS_API_KEY')}"]
+
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.1.1'
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
+
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.percentlayout:percentlayout:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+    implementation 'androidx.activity:activity-compose:1.6.1'
+
+    // COMPOSE WEAR
+    implementation "androidx.wear.compose:compose-material:1.2.0-alpha01"
+    implementation "androidx.wear.compose:compose-foundation:1.1.0"
+
+    // COMPOSE
+    implementation "androidx.compose.ui:ui:1.4.0-alpha03"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+
+    // TEXT INPUT
+    implementation "androidx.wear:wear-input:1.2.0-alpha02"
+
+    // VIEW MODEL
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
+
+    // NAVIGATION
+    implementation "androidx.wear.compose:compose-navigation:1.1.0"
+
+    // HEALTH SERVICE
+    implementation "androidx.health:health-services-client:1.0.0-beta01"
+    implementation 'androidx.compose.material:material:1.1.1'
+
+    // GOOGLE MAPS
+    compileOnly 'com.google.android.wearable:wearable:2.9.0'
+    implementation 'com.google.android.support:wearable:2.9.0'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-wearable:18.0.0'
+    implementation 'com.google.android.libraries.places:places:3.0.0'
+
+    // AMBIENT SUPPORT
+    implementation 'androidx.wear:wear:1.2.0'
+
+    // TEST AND DEBUG
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
+    // FIREBASE
+    implementation platform('com.google.firebase:firebase-bom:31.2.3')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+
+    // HILT
+    apply plugin: 'dagger.hilt.android.plugin'
+    apply plugin: 'kotlin-kapt'
+    apply plugin: 'com.google.firebase.crashlytics'
+    implementation 'com.google.dagger:hilt-android:2.44'
+    kapt 'com.google.dagger:hilt-android-compiler:2.44'
+
+    //implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.1.0-alpha01'
+    kapt 'androidx.hilt:hilt-compiler:1.0.0'
+
+}
