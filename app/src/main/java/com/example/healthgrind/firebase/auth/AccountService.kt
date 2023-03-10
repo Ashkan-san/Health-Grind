@@ -1,5 +1,6 @@
-package com.example.healthgrind.firebase
+package com.example.healthgrind.firebase.auth
 
+import com.example.healthgrind.firebase.User
 import kotlinx.coroutines.flow.Flow
 
 interface AccountService {

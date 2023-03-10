@@ -1,27 +1,31 @@
-package com.example.healthgrind.firebase
+package com.example.healthgrind.firebase.auth
 
-import javax.inject.Inject
+import com.example.healthgrind.firebase.User
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
 class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth) : AccountService {
 
+    // GETTER UND SETTER AUTOGENERIERT IN KOTLIN
+    // HIER WIRD GETTER ÜBERSCHRIEBEN VON currentUserId
     override val currentUserId: String
         get() = auth.currentUser?.uid.orEmpty()
 
     override val hasUser: Boolean
         get() = auth.currentUser != null
 
+    // UNSER AKTUELLER USER
     override val currentUser: Flow<User>
         get() = callbackFlow {
-            val listener =
-                FirebaseAuth.AuthStateListener { auth ->
-                    this.trySend(auth.currentUser?.let { User(it.uid, it.isAnonymous) } ?: User())
-                }
+            val listener = FirebaseAuth.AuthStateListener { auth ->
+                this.trySend(auth.currentUser?.let { User(it.uid, it.isAnonymous) } ?: User())
+                // WIRD HIER EIN USER ERSTELLT?
+            }
             auth.addAuthStateListener(listener)
             awaitClose { auth.removeAuthStateListener(listener) }
         }
@@ -39,6 +43,7 @@ class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth) : A
 
     // Mail und PW Strings nehmen, credential Objekt erstellen und mit aktuellen User verbinden
     override suspend fun linkAccount(email: String, password: String) {
+        //println(email + " " + password)
         val credential = EmailAuthProvider.getCredential(email, password)
         auth.currentUser!!.linkWithCredential(credential).await()
     }

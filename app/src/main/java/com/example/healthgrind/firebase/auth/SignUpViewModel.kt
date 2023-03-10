@@ -1,7 +1,10 @@
-package com.example.healthgrind.firebase
+package com.example.healthgrind.firebase.auth
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.navigation.NavHostController
+import com.example.healthgrind.firebase.HealthGrindViewModel
+import com.example.healthgrind.firebase.isValidEmail
+import com.example.healthgrind.firebase.isValidPassword
 import com.example.healthgrind.presentation.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -29,32 +32,24 @@ class SignUpViewModel @Inject constructor(
         uiState.value = uiState.value.copy(password = newValue)
     }
 
-    fun onRepeatPasswordChange(newValue: String) {
+    /*fun onRepeatPasswordChange(newValue: String) {
         uiState.value = uiState.value.copy(repeatPassword = newValue)
-    }
+    }*/
 
-    // openAndPopUp: (String, String) -> Unit
-    fun onSignUpClick(navController: NavHostController) {
-        if (!email.isValidEmail()) {
-            //SnackbarManager.showMessage(AppText.email_error)
-            println("Mail ist falsch")
-            return
+    fun onSignUpClick(navController: NavHostController): Boolean {
+        if (!email.isValidEmail() || !password.isValidPassword()) {
+            return false
         }
 
-        if (!password.isValidPassword()) {
-            //SnackbarManager.showMessage(AppText.password_error)
-            println("Passwort ist falsch")
-            return
-        }
-
-        if (!password.passwordMatches(uiState.value.repeatPassword)) {
+        /*if (!password.passwordMatches(uiState.value.repeatPassword)) {
             //SnackbarManager.showMessage(AppText.password_match_error)
             println("Zweites Passwort ist falsch")
             return
-        }
+        }*/
 
         launchCatching {
-            // Versuchen anzumelden
+            // Anonymen Account erstellen und Accountdaten dazu linken
+            accountService.createAnonymousAccount()
             accountService.linkAccount(email, password)
 
             // Screen wechseln, falls geklappt
@@ -63,5 +58,7 @@ class SignUpViewModel @Inject constructor(
                 popUpTo(Screen.SignUp.route) { inclusive = true }
             }
         }
+
+        return true
     }
 }

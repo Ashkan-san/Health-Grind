@@ -1,4 +1,4 @@
-package com.example.healthgrind.firebase
+package com.example.healthgrind.firebase.auth
 
 import dagger.Binds
 import dagger.Module
