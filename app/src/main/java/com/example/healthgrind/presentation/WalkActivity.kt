@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.example.healthgrind.R
-import com.example.healthgrind.data.ChallengeModel
+import com.example.healthgrind.firebase.database.Challenge
 import com.example.healthgrind.presentation.screens.FullScreenProgressIndicator
 import com.example.healthgrind.presentation.screens.filteredChallenges
 import com.example.healthgrind.presentation.theme.HealthGrindTheme
@@ -113,7 +113,7 @@ class WalkActivity : ComponentActivity(), SensorEventListener {
     fun WalkScreen(
         mainViewModel: MainViewModel, filChallIndex: String?, //dataSource: DataSource
     ) {
-        val challenge: ChallengeModel = filteredChallenges[filChallIndex!!.toInt()]
+        val challenge: Challenge = filteredChallenges[filChallIndex!!.toInt()]
 
         val steps by mainViewModel.stepCount.observeAsState(0)
         val goal by mainViewModel.stepGoal.observeAsState(0)

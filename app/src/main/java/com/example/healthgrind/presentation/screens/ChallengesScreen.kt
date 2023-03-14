@@ -1,7 +1,9 @@
 package com.example.healthgrind.presentation.screens
 
+import android.content.ContentValues
 import android.content.Intent
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,14 +14,43 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.wear.compose.material.*
-import com.example.healthgrind.data.*
+import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+import androidx.wear.compose.foundation.lazy.itemsIndexed
+import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
+import androidx.wear.compose.material.Chip
+import androidx.wear.compose.material.Icon
+import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.Text
+import com.example.healthgrind.data.DataSource
+import com.example.healthgrind.data.DifficultyType
+import com.example.healthgrind.data.ExerciseType
+import com.example.healthgrind.data.GameType
+import com.example.healthgrind.firebase.database.Challenge
 import com.example.healthgrind.presentation.MapsLocationActivity
 import com.example.healthgrind.presentation.WalkActivity
 import com.example.healthgrind.presentation.navigation.Screen
 import com.example.healthgrind.viewmodel.MainViewModel
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
-var filteredChallenges = listOf<ChallengeModel>()
+var filteredChallenges = listOf<Challenge>()
+
+fun getDocument(collection: String, documentPath: String) {
+    val db = Firebase.firestore
+    val docRef = db.collection(collection).document(documentPath)
+
+    docRef.get()
+        .addOnSuccessListener { document ->
+            if (document != null) {
+                Log.d(ContentValues.TAG, "DocumentSnapshot data: ${document.data}")
+            } else {
+                Log.d(ContentValues.TAG, "No such document")
+            }
+        }
+        .addOnFailureListener { exception ->
+            Log.d(ContentValues.TAG, "get failed with ", exception)
+        }
+}
 
 @Composable
 fun ChallengesScreen(
@@ -35,6 +66,8 @@ fun ChallengesScreen(
     var format = false
 
     filteredChallenges = dataSource.challenges
+
+    getDocument("fortnite", "code-01")
 
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),

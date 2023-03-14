@@ -1,5 +1,7 @@
 package com.example.healthgrind.firebase.auth
 
+import com.example.healthgrind.firebase.database.StorageService
+import com.example.healthgrind.firebase.database.StorageServiceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,7 +16,8 @@ abstract class ServiceModule {
     @Binds abstract fun provideLogService(impl: LogServiceImpl): LogService
 
     // TODO später entkommentieren
-    //@Binds abstract fun provideStorageService(impl: StorageServiceImpl): StorageService
+    @Binds
+    abstract fun provideStorageService(impl: StorageServiceImpl): StorageService
 
     //@Binds abstract fun provideConfigurationService(impl: ConfigurationServiceImpl): ConfigurationService
 }

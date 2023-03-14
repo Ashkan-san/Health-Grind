@@ -24,7 +24,7 @@ import androidx.wear.compose.material.dialog.Confirmation
 import androidx.wear.compose.material.dialog.Dialog
 import androidx.wear.compose.material.dialog.DialogDefaults
 import com.example.healthgrind.R
-import com.example.healthgrind.data.ChallengeModel
+import com.example.healthgrind.firebase.database.Challenge
 import com.example.healthgrind.presentation.navigation.Screen
 import com.example.healthgrind.viewmodel.MainViewModel
 
@@ -55,7 +55,7 @@ fun RewardScreen(
             }
 
             if (showDialog) {
-                val challenge: ChallengeModel = filteredChallenges[filChallIndex!!.toInt()]
+                val challenge: Challenge = filteredChallenges[filChallIndex!!.toInt()]
 
                 Dialog(
                     showDialog = true,

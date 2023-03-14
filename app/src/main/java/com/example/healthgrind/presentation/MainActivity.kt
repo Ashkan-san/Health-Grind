@@ -1,6 +1,5 @@
 package com.example.healthgrind.presentation
 
-import android.app.Application
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.WindowManager
@@ -12,8 +11,10 @@ import androidx.navigation.NavHostController
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
-import com.example.healthgrind.data.ChallengeModel
 import com.example.healthgrind.data.DataSource
+import com.example.healthgrind.firebase.auth.register.SignUpScreen
+import com.example.healthgrind.firebase.database.Challenge
+import com.example.healthgrind.firebase.database.reward.TestRewardScreen
 import com.example.healthgrind.presentation.navigation.Screen
 import com.example.healthgrind.presentation.screens.*
 import com.example.healthgrind.presentation.theme.HealthGrindTheme
@@ -159,10 +160,15 @@ class MainActivity : ComponentActivity() {
             composable(Screen.SignUp.route) {
                 SignUpScreen(navController = navController)
             }
+
+            // TEST REWARDS
+            composable(Screen.TestReward.route) {
+                TestRewardScreen(navController = navController)
+            }
         }
     }
 
-    fun saveListToPref(list: List<ChallengeModel?>?, key: String?) {
+    fun saveListToPref(list: List<Challenge?>?, key: String?) {
         val prefs: SharedPreferences = getSharedPreferences("dataPref", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = prefs.edit()
         val gson = Gson()
@@ -171,11 +177,11 @@ class MainActivity : ComponentActivity() {
         editor.apply()
     }
 
-    fun getListFromPref(key: String?): List<ChallengeModel?>? {
+    fun getListFromPref(key: String?): List<Challenge?>? {
         val prefs: SharedPreferences = getSharedPreferences("dataPref", MODE_PRIVATE)
         val gson = Gson()
         val json: String? = prefs.getString(key, null)
-        val type: Type = object : TypeToken<List<ChallengeModel?>?>() {}.type
+        val type: Type = object : TypeToken<List<Challenge?>?>() {}.type
         return gson.fromJson(json, type)
     }
 

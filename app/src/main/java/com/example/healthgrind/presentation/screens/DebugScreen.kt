@@ -8,7 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
-import androidx.wear.compose.material.*
+import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
+import androidx.wear.compose.material.Button
+import androidx.wear.compose.material.Icon
+import androidx.wear.compose.material.Text
 import com.example.healthgrind.R
 import com.example.healthgrind.presentation.HealthActivity
 import com.example.healthgrind.presentation.MapActivity
@@ -25,6 +29,15 @@ fun DebugScreen(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         state = listState
     ) {
+
+        item {
+            Button(onClick = {
+                navController.navigate(Screen.TestReward.route)
+            }) {
+                Text(text = "Test Rewards")
+            }
+        }
+
         item {
             Button(onClick = {
                 navController.navigate(Screen.SignUp.route)

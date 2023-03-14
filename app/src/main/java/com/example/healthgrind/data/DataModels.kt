@@ -1,6 +1,6 @@
 package com.example.healthgrind.data
 
-import androidx.lifecycle.MutableLiveData
+import com.example.healthgrind.firebase.database.Challenge
 
 enum class ExerciseType {
     RUN, WALK, STRENGTH, OUTDOOR
@@ -34,24 +34,11 @@ enum class GenderType {
     }
 }
 
-
 data class GameModel(
     val id: Int,
     val name: String,
     val image: Int,
-    val challenges: List<ChallengeModel> = listOf()
-)
-
-data class ChallengeModel(
-    val key: Int,
-    var title: String,
-    val reward: RewardModel,
-    val icon: Int,
-    val exerciseType: ExerciseType,
-    val difficulty: DifficultyType,
-    val gameType: GameType,
-    val goal: Int,
-    var finished: MutableLiveData<Boolean> = MutableLiveData(false)
+    val challenges: List<Challenge> = listOf()
 )
 
 data class RewardModel(

@@ -12,9 +12,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.wear.compose.material.*
+import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
+import androidx.wear.compose.material.Card
+import androidx.wear.compose.material.Chip
+import androidx.wear.compose.material.Text
 import com.example.healthgrind.R
 import com.example.healthgrind.presentation.navigation.Screen
+import java.util.*
 
 @Composable
 fun PlayerInfoScreen(navController: NavHostController, pref: SharedPreferences) {
@@ -52,7 +57,7 @@ fun PlayerInfoScreen(navController: NavHostController, pref: SharedPreferences) 
                     pref.all.forEach { (key, value) ->
                         Chip(
                             modifier = Modifier.fillMaxWidth(),
-                            label = { Text(key.capitalize()) },
+                            label = { Text(key.capitalize(Locale.ROOT)) },
                             secondaryLabel = { Text("$value") },
                             onClick = {
                                 when (key) {

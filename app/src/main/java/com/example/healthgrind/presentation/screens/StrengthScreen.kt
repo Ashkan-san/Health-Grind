@@ -19,8 +19,8 @@ import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.example.healthgrind.R
-import com.example.healthgrind.data.ChallengeModel
 import com.example.healthgrind.data.DataSource
+import com.example.healthgrind.firebase.database.Challenge
 import com.example.healthgrind.presentation.AutoResizingText
 import com.example.healthgrind.presentation.navigation.Screen
 import com.example.healthgrind.viewmodel.MainViewModel
@@ -32,7 +32,7 @@ fun StrengthScreen(
     navController: NavHostController,
     dataSource: DataSource
 ) {
-    val challenge: ChallengeModel = filteredChallenges[filChallIndex!!.toInt()]
+    val challenge: Challenge = filteredChallenges[filChallIndex!!.toInt()]
 
     val reps by mainViewModel.reps.observeAsState(0F)
     val goal by mainViewModel.strengthGoal.observeAsState(0F)

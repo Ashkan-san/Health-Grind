@@ -1,10 +1,11 @@
 package com.example.healthgrind.data
 
 import com.example.healthgrind.R
+import com.example.healthgrind.firebase.database.Challenge
 
 class DataSource {
     val challenges = listOf(
-        ChallengeModel(
+        Challenge(
             key = 0,
             title = "Run",
             reward = RewardModel(
@@ -17,7 +18,7 @@ class DataSource {
             gameType = GameType.SMASH,
             goal = 60000 * 10
         ),
-        ChallengeModel(
+        Challenge(
             key = 1,
             title = "Run",
             reward = RewardModel(
@@ -31,7 +32,7 @@ class DataSource {
             gameType = GameType.SMASH,
             goal = 60000 * 30
         ),
-        ChallengeModel(
+        Challenge(
             key = 2,
             title = "Steps Walk",
             reward = RewardModel(
@@ -45,7 +46,7 @@ class DataSource {
             gameType = GameType.SMASH,
             goal = 10000
         ),
-        ChallengeModel(
+        Challenge(
             key = 3,
             title = "Push Ups",
             reward = RewardModel(
@@ -59,7 +60,7 @@ class DataSource {
             gameType = GameType.SMASH,
             goal = 50
         ),
-        ChallengeModel(
+        Challenge(
             key = 4,
             title = "Outdoor",
             reward = RewardModel(
@@ -73,7 +74,7 @@ class DataSource {
             gameType = GameType.SMASH,
             goal = 60000 * 10
         ),
-        ChallengeModel(
+        Challenge(
             key = 5,
             title = "Run",
             reward = RewardModel(
@@ -88,7 +89,7 @@ class DataSource {
             gameType = GameType.FORTNITE,
             goal = 60000 / 4
         ),
-        ChallengeModel(
+        Challenge(
             key = 6,
             title = "Sit Ups",
             reward = RewardModel(
@@ -103,7 +104,7 @@ class DataSource {
             gameType = GameType.FORTNITE,
             goal = 100
         ),
-        ChallengeModel(
+        Challenge(
             key = 7,
             title = "Squats",
             reward = RewardModel(
@@ -118,7 +119,7 @@ class DataSource {
             gameType = GameType.FORTNITE,
             goal = 100
         ),
-        ChallengeModel(
+        Challenge(
             key = 8,
             title = "Run",
             reward = RewardModel(
@@ -133,7 +134,7 @@ class DataSource {
         ),
 
         // PRÄSENTATIONS CHALLENGES
-        ChallengeModel(
+        Challenge(
             key = 9,
             title = "Push Ups",
             reward = RewardModel(
@@ -146,7 +147,7 @@ class DataSource {
             gameType = GameType.FORTNITE,
             goal = 5
         ),
-        ChallengeModel(
+        Challenge(
             key = 10,
             title = "Outdoor",
             reward = RewardModel(
@@ -161,7 +162,7 @@ class DataSource {
             gameType = GameType.FORTNITE,
             goal = 60000 * 1
         ),
-        ChallengeModel(
+        Challenge(
             key = 11,
             title = "Steps Walk",
             reward = RewardModel(

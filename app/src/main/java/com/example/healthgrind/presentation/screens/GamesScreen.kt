@@ -10,14 +10,45 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.wear.compose.material.*
+import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+import androidx.wear.compose.foundation.lazy.items
+import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
+import androidx.wear.compose.material.Chip
+import androidx.wear.compose.material.ChipDefaults
+import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.Text
 import com.example.healthgrind.data.DataSource
 import com.example.healthgrind.presentation.navigation.Screen
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 @Composable
 fun GamesScreen(navController: NavHostController, dataSource: DataSource) {
     val listState = rememberScalingLazyListState()
     val games = dataSource.games
+
+    // STORAGE TEST
+    val storage = Firebase.storage
+    // Points to the root reference
+    val storageRef = storage.reference
+    // Points to "images"
+    var imagesRef = storageRef.child("images")
+
+    // Points to "images/space.jpg"
+    // Note that you can use variables to create child values
+    val fileName = "space.jpg"
+    val spaceRef = imagesRef.child(fileName)
+
+    // DATEIPFAD KRIEGEN "images/space.jpg"
+    val path = spaceRef.path
+
+    // DATEINAME KRIEGEN name is "space.jpg"
+    val name = spaceRef.name
+
+    // Points to "images"
+    imagesRef = spaceRef.parent!!
+
+    //val gsReference = storage.getReferenceFromUrl("gs://bucket/images/stars.jpg")
 
     ScalingLazyColumn(
         // LIST PARAMETER
@@ -36,25 +67,25 @@ fun GamesScreen(navController: NavHostController, dataSource: DataSource) {
             )
         }
         // LIST ITEMS
-        items(games) { index ->
+        items(games) { game ->
             Chip(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp),
 
                 colors = ChipDefaults.imageBackgroundChipColors(
-                    backgroundImagePainter = painterResource(id = index.image)
+                    backgroundImagePainter = painterResource(id = game.image)
                 ),
 
                 label = {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         color = MaterialTheme.colors.onPrimary,
-                        text = index.name
+                        text = game.name
                     )
                 },
 
-                onClick = { navController.navigate("${Screen.Exercises.route}/${index.id}") }
+                onClick = { navController.navigate("${Screen.Exercises.route}/${game.id}") }
             )
 
         }
