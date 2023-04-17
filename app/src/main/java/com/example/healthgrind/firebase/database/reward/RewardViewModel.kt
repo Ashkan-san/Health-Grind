@@ -1,7 +1,7 @@
 package com.example.healthgrind.firebase.database.reward
 
 import com.example.healthgrind.firebase.HealthGrindViewModel
-import com.example.healthgrind.firebase.auth.LogService
+import com.example.healthgrind.firebase.auth.debuglog.LogService
 import com.example.healthgrind.firebase.database.StorageService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -19,7 +19,7 @@ class RewardViewModel @Inject constructor(
 
     fun onRewardRedeemed(reward: Reward) {
         launchCatching {
-            storageService.updateReward(reward.copy(redeemed = true))
+            storageService.updateReward(reward.copy(redeemed = true, unlocked_by = ""))
         }
     }
 }

@@ -13,17 +13,12 @@ import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.example.healthgrind.data.DataSource
 import com.example.healthgrind.firebase.auth.register.SignUpScreen
-import com.example.healthgrind.firebase.database.Challenge
 import com.example.healthgrind.firebase.database.reward.TestRewardScreen
 import com.example.healthgrind.presentation.navigation.Screen
 import com.example.healthgrind.presentation.screens.*
 import com.example.healthgrind.presentation.theme.HealthGrindTheme
 import com.example.healthgrind.viewmodel.MainViewModel
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.reflect.Type
-import kotlin.reflect.full.memberProperties
 
 @AndroidEntryPoint
 @ExperimentalMaterialApi
@@ -32,7 +27,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var dataSource: DataSource
     private lateinit var pref: SharedPreferences
-    private lateinit var setPref: SharedPreferences
+    private lateinit var introPref: SharedPreferences
     private lateinit var dataPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,19 +41,14 @@ class MainActivity : ComponentActivity() {
                 dataSource = DataSource()
                 mainViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 
-                pref = getSharedPreferences("userData", MODE_PRIVATE)
-                setPref = getSharedPreferences("myPref", MODE_PRIVATE)
-                dataPref = getSharedPreferences("dataPref", MODE_PRIVATE)
-
-                // TEST/STANDARTDATEN
-                pref.edit().putString("name", "Ash").putInt("level", 100).putInt("height", 180)
-                    .putInt("weight", 85).putString("gender", "MALE").putInt("age", 23)
-                    .putString("Skill-Level", "PRO").apply()
+                introPref = getSharedPreferences("introPref", MODE_PRIVATE)
 
                 // FIRST START
-                if (setPref.getBoolean("firststart", true)) {
+                if (introPref.getBoolean("firstStart", true)) {
+                    println("FIRST")
                     InitNavHost(true)
                 } else {
+                    println("NOT FIRST")
                     InitNavHost(false)
                 }
             }
@@ -73,10 +63,13 @@ class MainActivity : ComponentActivity() {
         }
         // NAVIGATION - NAVHOST
         SwipeDismissableNavHost(
-            navController = navController, startDestination = startDestination
+            navController = navController,
+            startDestination = startDestination
         ) {
+
+            // 1. (FIRST) START SCREEN
             composable(Screen.Start.route) {
-                StartScreen(navController = navController)
+                StartScreen(navController = navController, pref = introPref)
             }
             composable(Screen.FirstStart.route) {
                 FirstStartScreen(navController = navController)
@@ -84,6 +77,36 @@ class MainActivity : ComponentActivity() {
             composable(Screen.Debug.route) {
                 DebugScreen(navController = navController)
             }
+
+            // 2. SIGN UP
+            composable(Screen.SignUp.route) {
+                SignUpScreen(navController = navController)
+            }
+
+            // 3. PLAYER INFORMATION
+            composable(Screen.PlayerInfo.route) {
+                PlayerInfoScreen(navController = navController)
+            }
+            composable(Screen.NameInput.route) {
+                NameInputScreen(navController = navController, pref = introPref)
+            }
+            composable(Screen.AgeInput.route) {
+                AgeInputScreen(navController = navController, pref = introPref)
+            }
+            composable(Screen.GenderInput.route) {
+                GenderInputScreen(navController = navController, pref = introPref)
+            }
+            composable(Screen.SkillInput.route) {
+                SkillInputScreen(navController = navController, pref = introPref)
+            }
+            composable(Screen.WeightInput.route) {
+                WeightInputScreen(navController = navController, pref = introPref)
+            }
+            composable(Screen.HeightInput.route) {
+                HeightInputScreen(navController = navController, pref = introPref)
+            }
+
+            // GAMES/EXERCISES/CHALLENGES/REWARDS
             composable(Screen.Games.route) {
                 GamesScreen(navController = navController, dataSource = dataSource)
             }
@@ -133,69 +156,12 @@ class MainActivity : ComponentActivity() {
                     dataSource = dataSource
                 )
             }
-            // PLAYER INFO UND INPUT
-            composable(Screen.PlayerInfo.route) {
-                PlayerInfoScreen(navController = navController, pref = pref)
-            }
-            composable(Screen.NameInput.route) {
-                NameInputScreen(navController = navController, pref = pref, setPref = setPref)
-            }
-            composable(Screen.AgeInput.route) {
-                AgeInputScreen(navController = navController, pref = pref, setPref = setPref)
-            }
-            composable(Screen.GenderInput.route) {
-                GenderInputScreen(navController = navController, pref = pref, setPref = setPref)
-            }
-            composable(Screen.SkillInput.route) {
-                SkillInputScreen(navController = navController, pref = pref, setPref = setPref)
-            }
-            composable(Screen.WeightInput.route) {
-                WeightInputScreen(navController = navController, pref = pref, setPref = setPref)
-            }
-            composable(Screen.HeightInput.route) {
-                HeightInputScreen(navController = navController, pref = pref, setPref = setPref)
-            }
-
-            // SIGN UP
-            composable(Screen.SignUp.route) {
-                SignUpScreen(navController = navController)
-            }
 
             // TEST REWARDS
             composable(Screen.TestReward.route) {
                 TestRewardScreen(navController = navController)
             }
         }
-    }
-
-    fun saveListToPref(list: List<Challenge?>?, key: String?) {
-        val prefs: SharedPreferences = getSharedPreferences("dataPref", MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = prefs.edit()
-        val gson = Gson()
-        val json: String = gson.toJson(list)
-        editor.putString(key, json)
-        editor.apply()
-    }
-
-    fun getListFromPref(key: String?): List<Challenge?>? {
-        val prefs: SharedPreferences = getSharedPreferences("dataPref", MODE_PRIVATE)
-        val gson = Gson()
-        val json: String? = prefs.getString(key, null)
-        val type: Type = object : TypeToken<List<Challenge?>?>() {}.type
-        return gson.fromJson(json, type)
-    }
-
-    fun dataClassToString(instance: Any) {
-        val sb = StringBuilder()
-        sb.append("data class ${instance::class.qualifiedName} (")
-        var prefix = ""
-        instance::class.memberProperties.forEach {
-            sb.append(prefix)
-            prefix = ","
-            sb.append("${it.name} = ${it.getter.call(instance)}")
-        }
-        sb.append(")")
-        println(sb.toString())
     }
 }
 

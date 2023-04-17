@@ -1,7 +1,8 @@
-package com.example.healthgrind.firebase.database
+package com.example.healthgrind.firebase.database.challenge
 
 import com.example.healthgrind.firebase.HealthGrindViewModel
-import com.example.healthgrind.firebase.auth.LogService
+import com.example.healthgrind.firebase.auth.debuglog.LogService
+import com.example.healthgrind.firebase.database.StorageService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

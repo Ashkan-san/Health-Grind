@@ -39,17 +39,29 @@ fun FirstStartScreen(navController: NavHostController) {
                 textAlign = TextAlign.Center,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
-                text = "Welcome to HealthGrind!"
+                text = "Willkommen bei HealthGrind!"
             )
         }
         item {
-            Text(
+            /*Text(
                 text = "\nThe first App that rewards your break from games with ingame-rewards!\n\n" +
                         "How does it work?\n\n" +
                         "You choose your preferred game, an exercise type and the challenge you want to complete.\n" +
                         "Your movement will be tracked then.\n" +
-                        "After fullfilling your goal you get your reward,\n" +
+                        "After fulfilling your goal you get your reward,\n" +
                         "have fun!\n\n" +
+                        "Made by:\n" +
+                        "Ashkan Haghighi Fashi\n Joseph Abasszada\n Oliver Tano Schlichting\n",
+                modifier = Modifier.fillMaxSize(),
+                textAlign = TextAlign.Center,
+            )*/
+            Text(
+                text = "\nDie erste App, welche deine Spielepausen mit In-Game Rewards belohnt!\n\n" +
+                        "Wie funktioniert es?\n\n" +
+                        "Du wählst dein Game, die Art von Exercise und dann eine Challenge aus, die du bewältigen willst.\n" +
+                        "Deine Bewegungen werden dann getracked.\n" +
+                        "Hast du deine Challenge abgeschlossen kriegst du deinen Reward,\n" +
+                        "viel Spaß!\n\n" +
                         "Made by:\n" +
                         "Ashkan Haghighi Fashi\n Joseph Abasszada\n Oliver Tano Schlichting\n",
                 modifier = Modifier.fillMaxSize(),
@@ -58,8 +70,7 @@ fun FirstStartScreen(navController: NavHostController) {
         }
         item {
             Button(onClick = {
-                navController.navigate(Screen.NameInput.route)
-                //navController.navigate(Screen.AgeInput.route)
+                navController.navigate(Screen.SignUp.route)
             }
             ) {
                 Icon(

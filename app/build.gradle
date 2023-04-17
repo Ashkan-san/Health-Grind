@@ -109,6 +109,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-perf-ktx'
     implementation "com.google.firebase:firebase-storage-ktx"
 
+    // KOIL
+    implementation("io.coil-kt:coil-compose:2.2.2")
+
     // HILT
     //apply plugin: 'kotlin-android-extensions'
     apply plugin: 'dagger.hilt.android.plugin'

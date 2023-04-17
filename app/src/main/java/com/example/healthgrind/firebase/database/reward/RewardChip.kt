@@ -5,20 +5,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Chip
-import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.Text
-import com.example.healthgrind.R
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 @Composable
 @ExperimentalMaterialApi
-fun RewardItem(
+fun RewardChip(
     reward: Reward,
     onCheckChange: () -> Unit
 ) {
@@ -29,30 +31,44 @@ fun RewardItem(
         label = {
             Text(
                 text = reward.title,
-                modifier = Modifier.fillMaxWidth(),
-                //color = MaterialTheme.colors.onPrimary
+                modifier = Modifier.fillMaxWidth()
             )
         },
         secondaryLabel = {
             Text(
-                text = "Code: " + reward.value,
+                text = "Code: " + if (reward.redeemed) reward.value else "*********",
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
         },
         icon = {
-            Icon(
-                // todo anderes bild
-                painter = painterResource(id = R.drawable.swords),
-                contentDescription = "Icon Name",
-                modifier = Modifier
-                    .size(24.dp)
-                    .wrapContentSize(align = Alignment.Center)
-            )
+            LoadImageFromStorage(reward)
         },
         onClick = {
             onCheckChange()
         },
         enabled = !reward.redeemed
+    )
+}
+
+@Composable
+fun LoadImageFromStorage(item: Reward) {
+    var link by remember { mutableStateOf("") }
+    val storageRef = Firebase.storage.reference
+
+    storageRef.child(item.image).downloadUrl.addOnSuccessListener {
+        link = it.toString()
+    }.addOnFailureListener {
+        println("DIGGA, BILD NICHT GEFUNDEN.")
+    }
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(link)
+            //.placeholder(R.drawable.reward)
+            .build(),
+        contentDescription = "Image",
+        modifier = Modifier
+            .size(24.dp)
+            .wrapContentSize(align = Alignment.Center)
     )
 }

@@ -22,10 +22,10 @@ import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.example.healthgrind.data.DataSource
-import com.example.healthgrind.data.DifficultyType
 import com.example.healthgrind.data.ExerciseType
 import com.example.healthgrind.data.GameType
-import com.example.healthgrind.firebase.database.Challenge
+import com.example.healthgrind.data.SkillType
+import com.example.healthgrind.firebase.database.challenge.Challenge
 import com.example.healthgrind.presentation.MapsLocationActivity
 import com.example.healthgrind.presentation.WalkActivity
 import com.example.healthgrind.presentation.navigation.Screen
@@ -99,23 +99,23 @@ fun ChallengesScreen(
             else -> {}
         }
 
-        when (pref.getString("Skill-Level", "")) {
+        when (pref.getString("skill", "")) {
             "BEGINNER" -> {
                 filteredChallenges =
-                    filteredChallenges.filter { c -> c.difficulty == DifficultyType.BEGINNER }
+                    filteredChallenges.filter { c -> c.difficulty == SkillType.BEGINNER }
             }
             "ADVANCED" -> {
                 filteredChallenges = filteredChallenges.filter { c ->
-                    c.difficulty == DifficultyType.BEGINNER ||
-                            c.difficulty == DifficultyType.ADVANCED
+                    c.difficulty == SkillType.BEGINNER ||
+                            c.difficulty == SkillType.ADVANCED
 
                 }
             }
             "PRO" -> {
                 filteredChallenges = filteredChallenges.filter { c ->
-                    c.difficulty == DifficultyType.BEGINNER ||
-                            c.difficulty == DifficultyType.ADVANCED ||
-                            c.difficulty == DifficultyType.PRO
+                    c.difficulty == SkillType.BEGINNER ||
+                            c.difficulty == SkillType.ADVANCED ||
+                            c.difficulty == SkillType.PRO
                 }
             }
         }

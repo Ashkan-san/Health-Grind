@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.example.healthgrind.R
-import com.example.healthgrind.firebase.database.Challenge
+import com.example.healthgrind.firebase.database.challenge.Challenge
 import com.example.healthgrind.presentation.screens.FullScreenProgressIndicator
 import com.example.healthgrind.presentation.screens.filteredChallenges
 import com.example.healthgrind.presentation.theme.HealthGrindTheme

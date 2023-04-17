@@ -1,5 +1,6 @@
 package com.example.healthgrind.presentation.screens
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +19,9 @@ import com.example.healthgrind.R
 import com.example.healthgrind.presentation.navigation.Screen
 
 @Composable
-fun StartScreen(navController: NavHostController) {
+fun StartScreen(navController: NavHostController, pref: SharedPreferences) {
+    pref.edit().putBoolean("firstStart", false).apply()
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -71,18 +74,6 @@ fun StartScreen(navController: NavHostController) {
                 }
             }
         }
-        /*item {
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colors.onPrimary,
-                text = "Made by:\n" +
-                        "Ashkan, Joseph, Oliver",
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 2,
-                fontSize = 10.sp
-            )
-        }*/
     }
 }
 

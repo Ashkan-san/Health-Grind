@@ -16,5 +16,6 @@ object FirebaseModule {
     @Provides
     fun auth(): FirebaseAuth = Firebase.auth
 
-    @Provides fun firestore(): FirebaseFirestore = Firebase.firestore
+    @Provides
+    fun firestore(): FirebaseFirestore = Firebase.firestore
 }

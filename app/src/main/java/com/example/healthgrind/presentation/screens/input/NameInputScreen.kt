@@ -1,5 +1,6 @@
-package com.example.healthgrind.firebase.auth.register
+package com.example.healthgrind.presentation.screens
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,48 +17,38 @@ import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
-import androidx.wear.compose.material.dialog.Confirmation
-import androidx.wear.compose.material.dialog.Dialog
-import androidx.wear.compose.material.dialog.DialogDefaults
 import com.example.healthgrind.R
+import com.example.healthgrind.firebase.auth.register.SignUpViewModel
+import com.example.healthgrind.presentation.navigation.Screen
 import com.example.healthgrind.presentation.screens.input.TextInput
 
 @Composable
-fun SignUpScreen(
+fun NameInputScreen(
     navController: NavHostController,
-    viewModel: SignUpViewModel = hiltViewModel()
+    viewModel: SignUpViewModel = hiltViewModel(),
+    pref: SharedPreferences
 ) {
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(5.dp)
-    )
-    {
+    ) {
+
         item {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colors.onPrimary,
-                text = "Registrierung"
+                text = "Name Input"
             )
         }
 
         item {
             TextInput(
-                value = "E-Mail",
-                icon = R.drawable.mail,
+                value = "Name",
+                icon = R.drawable.player,
                 onInputChange = {
-                    viewModel.onEmailChange(it)
-                }
-            )
-        }
-
-        item {
-            TextInput(
-                value = "Passwort",
-                icon = R.drawable.lock,
-                onInputChange = {
-                    viewModel.onPasswordChange(it)
+                    viewModel.onNameChange(it)
                 }
             )
         }
@@ -65,42 +56,14 @@ fun SignUpScreen(
         item {
             Button(
                 onClick = {
-                    var bool = viewModel.onSignUpClick(navController)
-
-                    /*if (bool) {
-                        ErrorDialog()
-                    }*/
+                    viewModel.onConfirmClick(navController, Screen.AgeInput.route, "name", pref)
                 }
             ) {
                 Icon(
                     painter = painterResource(R.drawable.check),
-                    contentDescription = "Register"
+                    contentDescription = "Confirm Input"
                 )
             }
-        }
-    }
-}
-
-@Composable
-fun ErrorDialog() {
-    Dialog(
-        showDialog = true,
-        onDismissRequest = {
-            //navController.navigate(Screen.Start.route)
-        }
-    ) {
-        Confirmation(
-            onTimeout = {
-                //navController.navigate(Screen.Start.route)
-            },
-            durationMillis = DialogDefaults.ShortDurationMillis
-        ) {
-
-            Text(
-                text = "Deine E-Mail oder Passwort sind falsch. Ein Passwort sollte min. 6 Zeichen lang sein.",
-                textAlign = TextAlign.Center
-            )
-
         }
     }
 }

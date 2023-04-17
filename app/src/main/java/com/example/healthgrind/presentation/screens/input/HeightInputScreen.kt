@@ -8,40 +8,37 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.wear.compose.material.*
 import com.example.healthgrind.R
+import com.example.healthgrind.firebase.auth.register.SignUpViewModel
 import com.example.healthgrind.presentation.navigation.Screen
 
 @Composable
-fun WeightInputScreen(
+fun HeightInputScreen(
     navController: NavHostController,
-    pref: SharedPreferences,
-    setPref: SharedPreferences
+    viewModel: SignUpViewModel = hiltViewModel(),
+    pref: SharedPreferences
 ) {
-    WeightPicker(
-        onWeightConfirm = {
-            pref.edit().putInt("weight", it).apply()
-            if (setPref.getBoolean("firststart", true)) {
-                navController.navigate(Screen.HeightInput.route)
-            } else {
-                navController.popBackStack()
-            }
+    HeightPicker(
+        onHeightConfirm = {
+            viewModel.onHeightChange(it)
+            viewModel.onConfirmClick(navController, Screen.WeightInput.route, "height", pref)
         }
     )
 
 }
 
 @Composable
-fun WeightPicker(
-    onWeightConfirm: (Int) -> Unit
+fun HeightPicker(
+    onHeightConfirm: (Int) -> Unit
 ) {
-    // STATES VON GEWICHT
-    val weightState = rememberPickerState(
-        initialNumberOfOptions = 300,
-        initiallySelectedOption = 70
+    val heightState = rememberPickerState(
+        initialNumberOfOptions = 250,
+        initiallySelectedOption = 170
     )
 
     val fr = remember { FocusRequester() }
@@ -53,11 +50,19 @@ fun WeightPicker(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.onPrimary,
+                text = "Größe"
+            )
+
             Spacer(Modifier.height(16.dp))
 
             // Überschrift
             Text(
-                text = "kg",
+                text = "cm",
                 color = MaterialTheme.colors.secondary,
                 style = MaterialTheme.typography.button,
                 maxLines = 1
@@ -78,13 +83,13 @@ fun WeightPicker(
                     .offset((boxConstraints.maxWidth - width) / 2 - 8.dp)
             ) {
                 PickerImpl(
-                    state = weightState,
+                    state = heightState,
                     onSelected = { },
                     // Funktion die als Input Int bekommt und String returned
-                    text = { weight: Int -> "%4d".format(weight) },
+                    text = { height: Int -> "%4d".format(height) },
                     width = width,
                     focusRequester = fr,
-                    contentDescription = "%4d".format(weightState.selectedOption)
+                    contentDescription = "%4d".format(heightState.selectedOption)
                 )
             }
             // Spacing Kram
@@ -97,8 +102,8 @@ fun WeightPicker(
             // Confirm Button
             Button(
                 onClick = {
-                    val confirmedWeight = weightState.selectedOption
-                    onWeightConfirm(confirmedWeight)
+                    val confirmedHeight = heightState.selectedOption
+                    onHeightConfirm(confirmedHeight)
                 }
             ) {
                 Icon(
@@ -114,31 +119,4 @@ fun WeightPicker(
             Spacer(Modifier.height(12.dp))
         }
     }
-}
-
-@Composable
-fun PickerImpl(
-    state: PickerState,
-    onSelected: () -> Unit,
-    text: (Int) -> String,
-    focusRequester: FocusRequester,
-    contentDescription: String?,
-    width: Dp
-) {
-    CustomPicker(
-        readOnly = false,
-        state = state,
-        focusRequester = focusRequester,
-        modifier = Modifier.size(width, 100.dp),
-        contentDescription = contentDescription,
-        onSelected = onSelected
-    ) { option ->
-        NumberPiece(
-            selected = true,
-            onSelected = onSelected,
-            text = text(option),
-            style = MaterialTheme.typography.display2
-        )
-    }
-
 }

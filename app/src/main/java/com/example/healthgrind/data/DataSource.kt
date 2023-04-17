@@ -1,9 +1,22 @@
 package com.example.healthgrind.data
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.healthgrind.R
-import com.example.healthgrind.firebase.database.Challenge
+import com.example.healthgrind.firebase.database.challenge.Challenge
+import com.example.healthgrind.firebase.database.reward.Reward
+import com.example.healthgrind.firebase.database.reward.RewardViewModel
 
-class DataSource {
+
+class DataSource() {
+    @Composable
+    fun getViewModel(viewModel: RewardViewModel = hiltViewModel()): State<List<Reward>> {
+        val rewards = viewModel.rewards.collectAsState(initial = emptyList())
+        return rewards
+    }
+
     val challenges = listOf(
         Challenge(
             key = 0,
@@ -14,7 +27,7 @@ class DataSource {
             ),
             icon = R.drawable.checkroom,
             exerciseType = ExerciseType.RUN,
-            difficulty = DifficultyType.PRO,
+            difficulty = SkillType.PRO,
             gameType = GameType.SMASH,
             goal = 60000 * 10
         ),
@@ -28,7 +41,7 @@ class DataSource {
             ),
             icon = R.drawable.euro,
             exerciseType = ExerciseType.RUN,
-            difficulty = DifficultyType.ADVANCED,
+            difficulty = SkillType.ADVANCED,
             gameType = GameType.SMASH,
             goal = 60000 * 30
         ),
@@ -42,7 +55,7 @@ class DataSource {
             ),
             icon = R.drawable.swords,
             exerciseType = ExerciseType.WALK,
-            difficulty = DifficultyType.ADVANCED,
+            difficulty = SkillType.ADVANCED,
             gameType = GameType.SMASH,
             goal = 10000
         ),
@@ -56,7 +69,7 @@ class DataSource {
             ),
             icon = R.drawable.euro,
             exerciseType = ExerciseType.STRENGTH,
-            difficulty = DifficultyType.PRO,
+            difficulty = SkillType.PRO,
             gameType = GameType.SMASH,
             goal = 50
         ),
@@ -70,7 +83,7 @@ class DataSource {
             ),
             icon = R.drawable.euro,
             exerciseType = ExerciseType.OUTDOOR,
-            difficulty = DifficultyType.BEGINNER,
+            difficulty = SkillType.BEGINNER,
             gameType = GameType.SMASH,
             goal = 60000 * 10
         ),
@@ -85,7 +98,7 @@ class DataSource {
             ),
             icon = R.drawable.euro,
             exerciseType = ExerciseType.RUN,
-            difficulty = DifficultyType.BEGINNER,
+            difficulty = SkillType.BEGINNER,
             gameType = GameType.FORTNITE,
             goal = 60000 / 4
         ),
@@ -100,7 +113,7 @@ class DataSource {
             ),
             icon = R.drawable.euro,
             exerciseType = ExerciseType.STRENGTH,
-            difficulty = DifficultyType.PRO,
+            difficulty = SkillType.PRO,
             gameType = GameType.FORTNITE,
             goal = 100
         ),
@@ -115,7 +128,7 @@ class DataSource {
             ),
             icon = R.drawable.euro,
             exerciseType = ExerciseType.STRENGTH,
-            difficulty = DifficultyType.ADVANCED,
+            difficulty = SkillType.ADVANCED,
             gameType = GameType.FORTNITE,
             goal = 100
         ),
@@ -128,7 +141,7 @@ class DataSource {
             ),
             icon = R.drawable.checkroom,
             exerciseType = ExerciseType.RUN,
-            difficulty = DifficultyType.PRO,
+            difficulty = SkillType.PRO,
             gameType = GameType.FORTNITE,
             goal = 60000 * 60
         ),
@@ -143,7 +156,7 @@ class DataSource {
             ),
             icon = R.drawable.checkroom,
             exerciseType = ExerciseType.STRENGTH,
-            difficulty = DifficultyType.BEGINNER,
+            difficulty = SkillType.BEGINNER,
             gameType = GameType.FORTNITE,
             goal = 5
         ),
@@ -158,7 +171,7 @@ class DataSource {
             ),
             icon = R.drawable.euro,
             exerciseType = ExerciseType.OUTDOOR,
-            difficulty = DifficultyType.BEGINNER,
+            difficulty = SkillType.BEGINNER,
             gameType = GameType.FORTNITE,
             goal = 60000 * 1
         ),
@@ -171,7 +184,7 @@ class DataSource {
             ),
             icon = R.drawable.swords,
             exerciseType = ExerciseType.WALK,
-            difficulty = DifficultyType.BEGINNER,
+            difficulty = SkillType.BEGINNER,
             gameType = GameType.FORTNITE,
             goal = 1000
         ),

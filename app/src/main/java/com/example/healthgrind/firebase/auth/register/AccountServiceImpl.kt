@@ -1,8 +1,11 @@
-package com.example.healthgrind.firebase.auth
+package com.example.healthgrind.firebase.auth.register
 
-import com.example.healthgrind.firebase.User
+import android.content.ContentValues.TAG
+import android.util.Log
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -23,12 +26,53 @@ class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth) : A
     override val currentUser: Flow<User>
         get() = callbackFlow {
             val listener = FirebaseAuth.AuthStateListener { auth ->
-                this.trySend(auth.currentUser?.let { User(it.uid, it.isAnonymous) } ?: User())
-                // WIRD HIER EIN USER ERSTELLT?
+                // Profil Info des Firebase Nutzers wird geholt und in ein User Objekt gelegt
+                this.trySend(auth.currentUser?.let
+                { User(it.uid, it.isAnonymous, it.email!!) } ?: User())
             }
+
             auth.addAuthStateListener(listener)
             awaitClose { auth.removeAuthStateListener(listener) }
         }
+
+    override fun createUser(email: String) {
+        // auth.currentUser!!.email!!
+        val user = User(id = currentUserId, email = email)
+
+        Firebase.firestore.collection("users").document(currentUserId).set(user)
+            .addOnSuccessListener {
+                Log.d(
+                    TAG, "DocumentSnapshot successfully written!"
+                )
+            }
+            .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
+    }
+
+    override fun updateUser(field: String, value: Any) {
+        val userRef = Firebase.firestore.collection("users").document(currentUserId)
+
+        userRef
+            .update(field, value)
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+    }
+
+    /*override fun updateUser(name: String, age: Int, height: Int, weight: Int, gender: GenderType, level: Int, skill: SkillType) {
+        val userRef = Firebase.firestore.collection("users").document(currentUserId)
+
+        userRef
+            .update(mapOf(
+                "name" to name,
+                "age" to age,
+                "height" to height,
+                "weight" to weight,
+                "gender" to gender,
+                "level" to level,
+                "skill" to skill
+            ))
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+    }*/
 
     // ANMELDEN
     override suspend fun authenticate(email: String, password: String) {
@@ -43,7 +87,6 @@ class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth) : A
 
     // Mail und PW Strings nehmen, credential Objekt erstellen und mit aktuellen User verbinden
     override suspend fun linkAccount(email: String, password: String) {
-        //println(email + " " + password)
         val credential = EmailAuthProvider.getCredential(email, password)
         auth.currentUser!!.linkWithCredential(credential).await()
     }

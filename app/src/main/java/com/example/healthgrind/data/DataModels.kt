@@ -1,6 +1,6 @@
 package com.example.healthgrind.data
 
-import com.example.healthgrind.firebase.database.Challenge
+import com.example.healthgrind.firebase.database.challenge.Challenge
 
 enum class ExerciseType {
     RUN, WALK, STRENGTH, OUTDOOR
@@ -10,7 +10,7 @@ enum class GameType {
     SMASH, FORTNITE, VALORANT, TEKKEN, STARDEW_VALLEY
 }
 
-enum class DifficultyType {
+enum class SkillType {
     BEGINNER, ADVANCED, PRO;
 
     companion object {

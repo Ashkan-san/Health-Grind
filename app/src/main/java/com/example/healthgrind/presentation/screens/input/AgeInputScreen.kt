@@ -14,11 +14,14 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.wear.compose.material.*
 import com.example.healthgrind.R
+import com.example.healthgrind.firebase.auth.register.SignUpViewModel
 import com.example.healthgrind.presentation.navigation.Screen
 import java.time.LocalDate
 import java.time.Period
@@ -28,18 +31,13 @@ import java.time.temporal.TemporalAdjusters
 @Composable
 fun AgeInputScreen(
     navController: NavHostController,
-    pref: SharedPreferences,
-    setPref: SharedPreferences
+    viewModel: SignUpViewModel = hiltViewModel(),
+    pref: SharedPreferences
 ) {
     DatePicker(
         onDateConfirm = {
-            pref.edit().putInt("age", it).apply()
-
-            if (setPref.getBoolean("firststart", true)) {
-                navController.navigate(Screen.GenderInput.route)
-            } else {
-                navController.popBackStack()
-            }
+            viewModel.onAgeChange(it)
+            viewModel.onConfirmClick(navController, Screen.HeightInput.route, "age", pref)
         }
     )
 }
@@ -59,7 +57,7 @@ fun DatePicker(
 ) {
     // STATES VON TAG, MONAT, JAHR
     val yearState = rememberPickerState(
-        initialNumberOfOptions = 3000,
+        initialNumberOfOptions = date.year,
         initiallySelectedOption = date.year - 1
     )
     val monthState = rememberPickerState(
@@ -109,6 +107,14 @@ fun DatePicker(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.onPrimary,
+                text = "Alter"
+            )
+
             Spacer(Modifier.height(16.dp))
 
             // Überschriften

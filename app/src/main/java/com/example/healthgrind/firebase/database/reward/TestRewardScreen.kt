@@ -25,7 +25,6 @@ fun TestRewardScreen(
     viewModel: RewardViewModel = hiltViewModel()
 ) {
     val rewards = viewModel.rewards.collectAsState(initial = emptyList())
-    //val rewards = viewModel.rewards.collectAsStateWithLifecycle(emptyList())
 
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -43,25 +42,13 @@ fun TestRewardScreen(
         }
 
         // BUTTON DER REWARD AKTUALISIERT
-        items(rewards.value) { rewardItem ->
-            RewardItem(
-                reward = rewardItem,
-                onCheckChange = { viewModel.onRewardRedeemed(rewardItem) }
+        items(rewards.value) { reward ->
+            //viewModel.linkImageToReward(reward)
+
+            RewardChip(
+                reward = reward,
+                onCheckChange = { viewModel.onRewardRedeemed(reward) }
             )
         }
-
-        // BUTTON DER REWARD ERSTELLT
-        /*item {
-            Button(
-                onClick = {
-                    viewModel.onAddReward()
-                }
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_plus),
-                    contentDescription = "Add"
-                )
-            }
-        }*/
     }
 }

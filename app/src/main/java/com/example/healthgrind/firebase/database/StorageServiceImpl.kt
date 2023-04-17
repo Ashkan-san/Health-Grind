@@ -1,6 +1,8 @@
 package com.example.healthgrind.firebase.database
 
-import com.example.healthgrind.firebase.auth.AccountService
+import com.example.healthgrind.firebase.auth.register.AccountService
+import com.example.healthgrind.firebase.auth.register.User
+import com.example.healthgrind.firebase.database.challenge.Challenge
 import com.example.healthgrind.firebase.database.reward.Reward
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,6 +19,41 @@ class StorageServiceImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val auth: AccountService
 ) : StorageService {
+
+    // COLLECTION STRINGS
+    companion object {
+        private const val USER_COLLECTION = "users"
+        private const val CHALLENGE_COLLECTION = "challenges"
+        private const val REWARD_COLLECTION = "rewards"
+        private const val GAME_COLLECTION = "games"
+
+
+        private const val FORTNITE_REWARDS = "fortnite"
+    }
+
+    // USERS
+    override val users: Flow<List<User>>
+        get() =
+            currentUserCollection().snapshots()
+                .map { snapshot -> snapshot.toObjects() }
+
+    override suspend fun getCurrentUser(): User? =
+        currentUserCollection().document(auth.currentUserId).get().await().toObject()
+
+    override suspend fun saveUser(user: User): String =
+        currentUserCollection().add(user).await().id
+
+    override suspend fun updateUser(user: User) {
+        currentUserCollection().document(user.id).set(user).await()
+    }
+
+    override suspend fun deleteUser(uid: String) {
+        currentUserCollection().document(uid).delete().await()
+    }
+
+    private fun currentUserCollection(): CollectionReference =
+        firestore.collection(USER_COLLECTION)
+
 
     // CHALLENGES
     override val challenges: Flow<List<Challenge>>
@@ -65,20 +102,7 @@ class StorageServiceImpl @Inject constructor(
         currentRewardCollection().document(rewardId).delete().await()
     }
 
-    /*override suspend fun deleteAllForUser(userId: String) {
-        val matchingTasks = currentCollection(userId).get().await()
-        matchingTasks.map { it.reference.delete().asDeferred() }.awaitAll()
-    }*/
-
-    // TODO noch ändern, aktuell zum testen auf Reward
+    // TODO ändern
     private fun currentRewardCollection(): CollectionReference =
         firestore.collection(FORTNITE_REWARDS)
-
-    companion object {
-        private const val USER_COLLECTION = "users"
-        private const val CHALLENGE_COLLECTION = "challenges"
-
-        private const val REWARD_COLLECTION = "rewards"
-        private const val FORTNITE_REWARDS = "fortnite"
-    }
 }

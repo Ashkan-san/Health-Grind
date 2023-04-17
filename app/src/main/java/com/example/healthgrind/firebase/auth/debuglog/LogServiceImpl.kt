@@ -1,4 +1,4 @@
-package com.example.healthgrind.firebase.auth
+package com.example.healthgrind.firebase.auth.debuglog
 
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
