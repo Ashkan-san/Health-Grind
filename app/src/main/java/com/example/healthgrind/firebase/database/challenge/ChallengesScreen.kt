@@ -26,6 +26,7 @@ import com.example.healthgrind.data.ExerciseType
 import com.example.healthgrind.data.GameType
 import com.example.healthgrind.data.SkillType
 import com.example.healthgrind.firebase.database.challenge.Challenge
+import com.example.healthgrind.firebase.database.challenge.NewChallenge
 import com.example.healthgrind.presentation.MapsLocationActivity
 import com.example.healthgrind.presentation.WalkActivity
 import com.example.healthgrind.presentation.navigation.Screen
@@ -52,6 +53,19 @@ fun getDocument(collection: String, documentPath: String) {
         }
 }
 
+fun generateChallengesForUser() {
+    // PFLICHT
+    // GEHEN
+    var challenges = listOf<NewChallenge>(
+
+    )
+    // LAUFEN
+
+    // KRAFT
+
+    // FREIWILLIG
+}
+
 @Composable
 fun ChallengesScreen(
     navController: NavHostController,
@@ -66,8 +80,6 @@ fun ChallengesScreen(
     var format = false
 
     filteredChallenges = dataSource.challenges
-
-    getDocument("fortnite", "code-01")
 
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),

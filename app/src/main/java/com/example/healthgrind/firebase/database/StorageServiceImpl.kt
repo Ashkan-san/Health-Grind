@@ -1,16 +1,19 @@
 package com.example.healthgrind.firebase.database
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import com.example.healthgrind.firebase.auth.register.AccountService
 import com.example.healthgrind.firebase.auth.register.User
-import com.example.healthgrind.firebase.database.challenge.Challenge
-import com.example.healthgrind.firebase.database.reward.Reward
+import com.example.healthgrind.firebase.database.challenge.NewChallenge
+import com.example.healthgrind.firebase.database.platform.Platform
+import com.example.healthgrind.firebase.database.reward.NewReward
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.snapshots
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -26,83 +29,103 @@ class StorageServiceImpl @Inject constructor(
         private const val CHALLENGE_COLLECTION = "challenges"
         private const val REWARD_COLLECTION = "rewards"
         private const val GAME_COLLECTION = "games"
-
-
-        private const val FORTNITE_REWARDS = "fortnite"
     }
 
     // USERS
     override val users: Flow<List<User>>
         get() =
-            currentUserCollection().snapshots()
+            firestore.collection(USER_COLLECTION).snapshots()
                 .map { snapshot -> snapshot.toObjects() }
 
     override suspend fun getCurrentUser(): User? =
-        currentUserCollection().document(auth.currentUserId).get().await().toObject()
+        currentUserDocument().get().await().toObject()
 
-    override suspend fun saveUser(user: User): String =
-        currentUserCollection().add(user).await().id
-
-    override suspend fun updateUser(user: User) {
-        currentUserCollection().document(user.id).set(user).await()
+    override suspend fun saveCurrentUser(user: User) {
+        currentUserDocument().set(user)
+            .addOnSuccessListener { Log.d(TAG, "USER successfully written!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }.await()
     }
 
-    override suspend fun deleteUser(uid: String) {
-        currentUserCollection().document(uid).delete().await()
+    override suspend fun updateCurrentUser(field: String, value: Any) {
+        currentUserDocument().update(field, value)
+            .addOnSuccessListener { Log.d(TAG, "USER successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }.await()
     }
 
-    private fun currentUserCollection(): CollectionReference =
-        firestore.collection(USER_COLLECTION)
+    private fun currentUserDocument(): DocumentReference =
+        firestore.collection(USER_COLLECTION).document(auth.currentUserId)
+
+    // PLATFORMS/GAMES
+    override val platforms: Flow<List<Platform>>
+        get() =
+            currentPlatformCollection().snapshots().map { snapshot -> snapshot.toObjects() }
+
+
+    override suspend fun getGame(id: String): Platform? =
+        currentPlatformCollection().document(id).get().await().toObject()
+
+    override suspend fun saveGame(platform: Platform) {
+        currentPlatformCollection().add(platform)
+            .addOnSuccessListener { Log.d(TAG, "GAME successfully written!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }.await()
+    }
+
+    override suspend fun updateGame(platform: Platform) {
+        currentPlatformCollection().document(platform.id).set(platform)
+            .addOnSuccessListener { Log.d(TAG, "GAME successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }.await()
+    }
+
+    private fun currentPlatformCollection(): CollectionReference =
+        currentUserDocument().collection(GAME_COLLECTION)
 
 
     // CHALLENGES
-    override val challenges: Flow<List<Challenge>>
+    override val challenges: Flow<List<NewChallenge>>
         get() =
-            auth.currentUser.flatMapLatest { user ->
-                currentChallengeCollection(user.id).snapshots()
-                    .map { snapshot -> snapshot.toObjects() }
-            }
+            currentChallengeCollection().snapshots()
+                .map { snapshot -> snapshot.toObjects() }
 
-    override suspend fun getChallenge(challengeId: String): Challenge? =
-        currentChallengeCollection(auth.currentUserId).document(challengeId).get().await()
-            .toObject()
+    override suspend fun getChallenge(id: String): NewChallenge? =
+        currentChallengeCollection().document(id).get().await().toObject()
 
-    override suspend fun saveChallenge(challenge: Challenge): String =
-        currentChallengeCollection(auth.currentUserId).add(challenge).await().id
-
-    override suspend fun updateChallenge(challenge: Challenge) {
-        currentChallengeCollection(auth.currentUserId).document(challenge.id).set(challenge).await()
+    override suspend fun saveChallenge(challenge: NewChallenge) {
+        currentChallengeCollection().add(challenge)
+            .addOnSuccessListener { Log.d(TAG, "CHALLENGE successfully written!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }.await()
     }
 
-    override suspend fun deleteChallenge(challengeId: String) {
-        currentChallengeCollection(auth.currentUserId).document(challengeId).delete().await()
+    override suspend fun updateChallenge(challenge: NewChallenge) {
+        currentChallengeCollection().document(challenge.id).set(challenge)
+            .addOnSuccessListener { Log.d(TAG, "CHALLENGE successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }.await()
     }
 
-    private fun currentChallengeCollection(uid: String): CollectionReference =
-        firestore.collection(USER_COLLECTION).document(uid).collection(CHALLENGE_COLLECTION)
+    private fun currentChallengeCollection(): CollectionReference =
+        currentUserDocument().collection(CHALLENGE_COLLECTION)
+
 
     // REWARDS
-    override val rewards: Flow<List<Reward>>
+    override val rewards: Flow<List<NewReward>>
         get() =
-            auth.currentUser.flatMapLatest {
-                currentRewardCollection().snapshots().map { snapshot -> snapshot.toObjects() }
-            }
+            currentRewardCollection().snapshots().map { snapshot -> snapshot.toObjects() }
 
-    override suspend fun getReward(rewardId: String): Reward? =
-        currentRewardCollection().document(rewardId).get().await().toObject()
 
-    override suspend fun saveReward(reward: Reward): String =
-        currentRewardCollection().add(reward).await().id
+    override suspend fun getReward(id: String): NewReward? =
+        currentRewardCollection().document(id).get().await().toObject()
 
-    override suspend fun updateReward(reward: Reward) {
-        currentRewardCollection().document(reward.id).set(reward).await()
+    override suspend fun saveReward(reward: NewReward) {
+        currentRewardCollection().add(reward)
+            .addOnSuccessListener { Log.d(TAG, "REWARD successfully written!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }.await()
     }
 
-    override suspend fun deleteReward(rewardId: String) {
-        currentRewardCollection().document(rewardId).delete().await()
+    override suspend fun updateReward(reward: NewReward) {
+        currentRewardCollection().document(reward.id).set(reward)
+            .addOnSuccessListener { Log.d(TAG, "REWARD successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }.await()
     }
 
-    // TODO ändern
     private fun currentRewardCollection(): CollectionReference =
-        firestore.collection(FORTNITE_REWARDS)
+        currentUserDocument().collection(REWARD_COLLECTION)
 }

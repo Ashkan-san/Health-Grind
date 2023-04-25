@@ -1,22 +1,10 @@
 package com.example.healthgrind.data
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.healthgrind.R
 import com.example.healthgrind.firebase.database.challenge.Challenge
-import com.example.healthgrind.firebase.database.reward.Reward
-import com.example.healthgrind.firebase.database.reward.RewardViewModel
 
 
 class DataSource() {
-    @Composable
-    fun getViewModel(viewModel: RewardViewModel = hiltViewModel()): State<List<Reward>> {
-        val rewards = viewModel.rewards.collectAsState(initial = emptyList())
-        return rewards
-    }
-
     val challenges = listOf(
         Challenge(
             key = 0,
@@ -196,11 +184,6 @@ class DataSource() {
             name = "Smash Bros Ultimate",
             image = R.drawable.smash,
             challenges = challenges
-        ),
-        GameModel(
-            id = 2,
-            name = "Fortnite",
-            image = R.drawable.fortnite
         ),
         GameModel(
             id = 3,

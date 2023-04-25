@@ -18,6 +18,7 @@ data class User(
     var gender: String = "",
     var skill: String = "",
     var level: Int = 0,
+    var profile: String = "",
 
     // TODO noch messen bzw irgendwo her bekommen
     var usageTime: Float = 0F,

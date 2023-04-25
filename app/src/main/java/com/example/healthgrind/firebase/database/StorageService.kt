@@ -1,40 +1,37 @@
 package com.example.healthgrind.firebase.database
 
 import com.example.healthgrind.firebase.auth.register.User
-import com.example.healthgrind.firebase.database.challenge.Challenge
-import com.example.healthgrind.firebase.database.reward.Reward
+import com.example.healthgrind.firebase.database.challenge.NewChallenge
+import com.example.healthgrind.firebase.database.platform.Platform
+import com.example.healthgrind.firebase.database.reward.NewReward
 import kotlinx.coroutines.flow.Flow
 
 interface StorageService {
-
-    // TODO was genau speichern?
-    // Challenges
-    // Sportdata (Schritte, Herzschlag...)
-    // Userdata (Name, Alter, Gewicht...)
-    // Games? Werden ja nicht geändert...
-
     // USERS
     val users: Flow<List<User>>
-    //val currentUser: Flow<User>
 
     suspend fun getCurrentUser(): User?
-    suspend fun saveUser(user: User): String
-    suspend fun updateUser(user: User)
-    suspend fun deleteUser(uid: String)
+    suspend fun saveCurrentUser(user: User)
+    suspend fun updateCurrentUser(field: String, value: Any)
+
+    // GAMES
+    val platforms: Flow<List<Platform>>
+
+    suspend fun getGame(id: String): Platform?
+    suspend fun saveGame(platform: Platform)
+    suspend fun updateGame(platform: Platform)
 
     // CHALLENGES
-    val challenges: Flow<List<Challenge>>
+    val challenges: Flow<List<NewChallenge>>
 
-    suspend fun getChallenge(challengeId: String): Challenge?
-    suspend fun saveChallenge(challenge: Challenge): String
-    suspend fun updateChallenge(challenge: Challenge)
-    suspend fun deleteChallenge(challengeId: String)
+    suspend fun getChallenge(id: String): NewChallenge?
+    suspend fun saveChallenge(challenge: NewChallenge)
+    suspend fun updateChallenge(challenge: NewChallenge)
 
     // REWARDS
-    val rewards: Flow<List<Reward>>
+    val rewards: Flow<List<NewReward>>
 
-    suspend fun getReward(rewardId: String): Reward?
-    suspend fun saveReward(reward: Reward): String
-    suspend fun updateReward(reward: Reward)
-    suspend fun deleteReward(rewardId: String)
+    suspend fun getReward(id: String): NewReward?
+    suspend fun saveReward(reward: NewReward)
+    suspend fun updateReward(reward: NewReward)
 }

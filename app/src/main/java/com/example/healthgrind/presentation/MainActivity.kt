@@ -16,6 +16,7 @@ import com.example.healthgrind.firebase.auth.register.SignUpScreen
 import com.example.healthgrind.firebase.database.reward.TestRewardScreen
 import com.example.healthgrind.presentation.navigation.Screen
 import com.example.healthgrind.presentation.screens.*
+import com.example.healthgrind.presentation.screens.input.ProfileInputScreen
 import com.example.healthgrind.presentation.theme.HealthGrindTheme
 import com.example.healthgrind.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +29,6 @@ class MainActivity : ComponentActivity() {
     private lateinit var dataSource: DataSource
     private lateinit var pref: SharedPreferences
     private lateinit var introPref: SharedPreferences
-    private lateinit var dataPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,10 +105,13 @@ class MainActivity : ComponentActivity() {
             composable(Screen.HeightInput.route) {
                 HeightInputScreen(navController = navController, pref = introPref)
             }
+            composable(Screen.ProfileInput.route) {
+                ProfileInputScreen(navController = navController, pref = introPref)
+            }
 
             // GAMES/EXERCISES/CHALLENGES/REWARDS
             composable(Screen.Games.route) {
-                GamesScreen(navController = navController, dataSource = dataSource)
+                GamesScreen(navController = navController)
             }
             composable(
                 "${Screen.Exercises.route}/{id}"

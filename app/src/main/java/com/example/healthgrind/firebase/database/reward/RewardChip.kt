@@ -21,7 +21,7 @@ import com.google.firebase.storage.ktx.storage
 @Composable
 @ExperimentalMaterialApi
 fun RewardChip(
-    reward: Reward,
+    reward: NewReward,
     onCheckChange: () -> Unit
 ) {
     Chip(
@@ -45,14 +45,14 @@ fun RewardChip(
             LoadImageFromStorage(reward)
         },
         onClick = {
-            onCheckChange()
+            //onCheckChange()
         },
         enabled = !reward.redeemed
     )
 }
 
 @Composable
-fun LoadImageFromStorage(item: Reward) {
+fun LoadImageFromStorage(item: NewReward) {
     var link by remember { mutableStateOf("") }
     val storageRef = Firebase.storage.reference
 
@@ -64,7 +64,6 @@ fun LoadImageFromStorage(item: Reward) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(link)
-            //.placeholder(R.drawable.reward)
             .build(),
         contentDescription = "Image",
         modifier = Modifier

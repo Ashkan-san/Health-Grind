@@ -1,4 +1,4 @@
-package com.example.healthgrind.presentation.screens
+package com.example.healthgrind.presentation.screens.input
 
 import android.content.SharedPreferences
 import androidx.compose.foundation.layout.*
@@ -19,25 +19,32 @@ import androidx.wear.compose.foundation.lazy.itemsIndexed
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.material.*
 import com.example.healthgrind.R
-import com.example.healthgrind.data.GenderType
+import com.example.healthgrind.data.ProfileType
 import com.example.healthgrind.firebase.auth.register.SignUpViewModel
 import com.example.healthgrind.presentation.navigation.Screen
 
 @Composable
-fun GenderInputScreen(
+fun ProfileInputScreen(
     navController: NavHostController,
     viewModel: SignUpViewModel = hiltViewModel(),
     pref: SharedPreferences
 ) {
     val listState = rememberScalingLazyListState(initialCenterItemIndex = 0)
-    val radioOptions = GenderType.getList()
+    val radioOptions = ProfileType.getList()
     val radioBools = listOf(
         remember { mutableStateOf(false) },
         remember { mutableStateOf(false) },
-        remember { mutableStateOf(false) }
+        remember { mutableStateOf(false) },
+        remember { mutableStateOf(false) },
+        remember { mutableStateOf(false) },
+        remember { mutableStateOf(false) },
+        remember { mutableStateOf(false) },
+        remember { mutableStateOf(false) },
+        remember { mutableStateOf(false) },
+        remember { mutableStateOf(false) },
     )
 
-    var gender = viewModel.userState.value.gender
+    var profile = viewModel.userState.value.profile
 
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -50,7 +57,7 @@ fun GenderInputScreen(
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colors.onPrimary,
-                text = "Geschlecht"
+                text = "Profil"
             )
         }
 
@@ -68,7 +75,7 @@ fun GenderInputScreen(
                     radioBools.forEach { it.value = false }
                     radioBools[index].value = true
 
-                    gender = option
+                    profile = option
                 },
                 toggleControl = {
                     RadioButton(
@@ -77,18 +84,6 @@ fun GenderInputScreen(
                             this.contentDescription = if (radioBools[index].value) "On" else "Off"
                         }
                     )
-                },
-                appIcon = {
-                    var id = 0
-                    when (option) {
-                        "MALE" -> id = R.drawable.male
-                        "FEMALE" -> id = R.drawable.female
-                        "OTHER" -> id = R.drawable.trans
-                    }
-                    Icon(
-                        painter = painterResource(id = id),
-                        contentDescription = "Icon"
-                    )
                 }
             )
         }
@@ -96,11 +91,11 @@ fun GenderInputScreen(
             // Confirm Button
             Button(
                 onClick = {
-                    viewModel.onGenderChange(gender)
+                    viewModel.onProfileChange(profile)
                     viewModel.onConfirmClick(
                         navController,
-                        Screen.ProfileInput.route,
-                        "gender",
+                        Screen.SkillInput.route,
+                        "profile",
                         pref
                     )
                 }

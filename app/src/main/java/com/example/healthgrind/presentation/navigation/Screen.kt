@@ -4,7 +4,7 @@ sealed class Screen(val route: String) {
     object FirstStart : Screen("first")
     object Start : Screen("start")
     object Debug : Screen("debug")
-    object SignUp: Screen("signup")
+    object SignUp : Screen("signup")
 
     object Games : Screen("games")
     object Exercises : Screen("exercises")
@@ -23,5 +23,6 @@ sealed class Screen(val route: String) {
     object SkillInput : Screen("skillInput")
     object WeightInput : Screen("weightInput")
     object HeightInput : Screen("heightInput")
+    object ProfileInput : Screen("profileInput")
 
 }

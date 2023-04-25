@@ -43,8 +43,6 @@ fun TestRewardScreen(
 
         // BUTTON DER REWARD AKTUALISIERT
         items(rewards.value) { reward ->
-            //viewModel.linkImageToReward(reward)
-
             RewardChip(
                 reward = reward,
                 onCheckChange = { viewModel.onRewardRedeemed(reward) }

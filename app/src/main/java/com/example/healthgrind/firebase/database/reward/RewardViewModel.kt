@@ -17,9 +17,9 @@ class RewardViewModel @Inject constructor(
     // Rewards auflisten (nur die freigeschalteten bzw. code verstecken)
     val rewards = storageService.rewards
 
-    fun onRewardRedeemed(reward: Reward) {
+    fun onRewardRedeemed(reward: NewReward) {
         launchCatching {
-            storageService.updateReward(reward.copy(redeemed = true, unlocked_by = ""))
+            storageService.updateReward(reward.copy(redeemed = true))
         }
     }
 }

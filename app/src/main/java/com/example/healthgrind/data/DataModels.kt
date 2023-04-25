@@ -10,6 +10,10 @@ enum class GameType {
     SMASH, FORTNITE, VALORANT, TEKKEN, STARDEW_VALLEY
 }
 
+enum class PlatformType {
+    NINTENDO, PLAYSTATION, STEAM, RIOT, PLAYSTORE, APPSTORE, FORTNITE, WARZONE
+}
+
 enum class SkillType {
     BEGINNER, ADVANCED, PRO;
 
@@ -24,6 +28,18 @@ enum class SkillType {
 
 enum class GenderType {
     MALE, FEMALE, OTHER;
+
+    companion object {
+        fun getList(): List<String> {
+            return values().map {
+                it.toString()
+            }
+        }
+    }
+}
+
+enum class ProfileType {
+    ARDIAN, ARIYAN, BRIAN, GERRIT, JOSEPH, JUSTUS, KATHLEEN, KJELL, OLIVER, QUAN;
 
     companion object {
         fun getList(): List<String> {
