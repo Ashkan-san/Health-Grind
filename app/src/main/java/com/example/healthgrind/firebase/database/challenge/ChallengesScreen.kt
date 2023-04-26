@@ -1,11 +1,9 @@
-package com.example.healthgrind.presentation.screens
+package com.example.healthgrind.firebase.database.challenge
 
-import android.content.ContentValues
 import android.content.Intent
-import android.content.SharedPreferences
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -13,73 +11,32 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.itemsIndexed
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
-import androidx.wear.compose.material.Chip
-import androidx.wear.compose.material.Icon
-import androidx.wear.compose.material.MaterialTheme
-import androidx.wear.compose.material.Text
-import com.example.healthgrind.data.DataSource
+import androidx.wear.compose.material.*
 import com.example.healthgrind.data.ExerciseType
-import com.example.healthgrind.data.GameType
-import com.example.healthgrind.data.SkillType
-import com.example.healthgrind.firebase.database.challenge.Challenge
-import com.example.healthgrind.firebase.database.challenge.NewChallenge
+import com.example.healthgrind.data.myFormatTime
 import com.example.healthgrind.presentation.MapsLocationActivity
 import com.example.healthgrind.presentation.WalkActivity
 import com.example.healthgrind.presentation.navigation.Screen
 import com.example.healthgrind.viewmodel.MainViewModel
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-
-var filteredChallenges = listOf<Challenge>()
-
-fun getDocument(collection: String, documentPath: String) {
-    val db = Firebase.firestore
-    val docRef = db.collection(collection).document(documentPath)
-
-    docRef.get()
-        .addOnSuccessListener { document ->
-            if (document != null) {
-                Log.d(ContentValues.TAG, "DocumentSnapshot data: ${document.data}")
-            } else {
-                Log.d(ContentValues.TAG, "No such document")
-            }
-        }
-        .addOnFailureListener { exception ->
-            Log.d(ContentValues.TAG, "get failed with ", exception)
-        }
-}
-
-fun generateChallengesForUser() {
-    // PFLICHT
-    // GEHEN
-    var challenges = listOf<NewChallenge>(
-
-    )
-    // LAUFEN
-
-    // KRAFT
-
-    // FREIWILLIG
-}
 
 @Composable
 fun ChallengesScreen(
     navController: NavHostController,
-    dataSource: DataSource,
-    id: String?,
-    id2: String?,
-    pref: SharedPreferences,
-    mainViewModel: MainViewModel
+    platformId: String?,
+    exerciseId: String?,
+    mainViewModel: MainViewModel,
+    viewModel: ChallengeViewModel = hiltViewModel()
 ) {
     val listState = rememberScalingLazyListState()
     val context = LocalContext.current
-    var format = false
 
-    filteredChallenges = dataSource.challenges
+    val challengesList = viewModel.challenges.collectAsState(initial = emptyList())
+    viewModel.filterChallengesAndGet(exerciseId!!)
 
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -87,7 +44,6 @@ fun ChallengesScreen(
         state = listState
 
     ) {
-        // TITLE
         item {
             Text(
                 modifier = Modifier.fillMaxWidth(),
@@ -96,68 +52,23 @@ fun ChallengesScreen(
                 text = "Challenges"
             )
         }
-        // LIST ITEMS
-        when (id) {
-            "1" -> filteredChallenges =
-                filteredChallenges.filter { c -> c.gameType == GameType.SMASH }
-            "2" -> filteredChallenges =
-                filteredChallenges.filter { c -> c.gameType == GameType.FORTNITE }
-            "3" -> filteredChallenges =
-                filteredChallenges.filter { c -> c.gameType == GameType.STARDEW_VALLEY }
-            "4" -> filteredChallenges =
-                filteredChallenges.filter { c -> c.gameType == GameType.TEKKEN }
-            "5" -> filteredChallenges =
-                filteredChallenges.filter { c -> c.gameType == GameType.VALORANT }
-            else -> {}
-        }
 
-        when (pref.getString("skill", "")) {
-            "BEGINNER" -> {
-                filteredChallenges =
-                    filteredChallenges.filter { c -> c.difficulty == SkillType.BEGINNER }
-            }
-            "ADVANCED" -> {
-                filteredChallenges = filteredChallenges.filter { c ->
-                    c.difficulty == SkillType.BEGINNER ||
-                            c.difficulty == SkillType.ADVANCED
+        itemsIndexed(challengesList.value) { index, item ->
+            var goalText = item.goal.toString()
+            var currentText = item.current.toString()
+            val format = checkGoalType(item.exerciseType)
 
-                }
-            }
-            "PRO" -> {
-                filteredChallenges = filteredChallenges.filter { c ->
-                    c.difficulty == SkillType.BEGINNER ||
-                            c.difficulty == SkillType.ADVANCED ||
-                            c.difficulty == SkillType.PRO
-                }
-            }
-        }
-
-        when (id2) {
-            "RUN" -> {
-                filteredChallenges =
-                    filteredChallenges.filter { c -> c.exerciseType == ExerciseType.RUN }
-                format = true
-            }
-            "WALK" -> filteredChallenges =
-                filteredChallenges.filter { c -> c.exerciseType == ExerciseType.WALK }
-            "STRENGTH" -> filteredChallenges =
-                filteredChallenges.filter { c -> c.exerciseType == ExerciseType.STRENGTH }
-            "OUTDOOR" -> {
-                filteredChallenges =
-                    filteredChallenges.filter { c -> c.exerciseType == ExerciseType.OUTDOOR }
-                format = true
-            }
-        }
-
-        itemsIndexed(filteredChallenges) { index, item ->
             Chip(
+                colors = ChipDefaults.chipColors(
+                    backgroundColor = if (item.mandatory) MaterialTheme.colors.secondaryVariant else MaterialTheme.colors.primary
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp),
                 label = {
-                    var goalText = item.goal.toString()
                     if (format) {
                         goalText = myFormatTime(item.goal.toLong())
+                        currentText = myFormatTime(item.current.toLong())
                     }
                     Text(
                         modifier = Modifier.fillMaxWidth(),
@@ -167,7 +78,7 @@ fun ChallengesScreen(
                 },
                 secondaryLabel = {
                     Text(
-                        text = item.reward.name,
+                        text = "$currentText / $goalText",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -182,20 +93,20 @@ fun ChallengesScreen(
                     )
                 },
                 onClick = {
-                    when (id2) {
-                        "RUN" -> {
-                            mainViewModel.setTimeGoal(filteredChallenges[index].goal.toLong())
+                    when (item.exerciseType) {
+                        ExerciseType.RUN -> {
+                            //mainViewModel.setTimeGoal(filteredChallenges[index].goal.toLong())
                             navController.navigate("${Screen.Running.route}/${index}")
                         }
 
-                        "WALK" -> context.startActivity(
+                        ExerciseType.WALK -> context.startActivity(
                             Intent(context, WalkActivity::class.java).putExtra(
                                 "index",
                                 index.toString()
                             )
                         )
-                        "STRENGTH" -> navController.navigate("${Screen.Strength.route}/${index}")
-                        "OUTDOOR" -> context.startActivity(
+                        ExerciseType.STRENGTH -> navController.navigate("${Screen.Strength.route}/${index}")
+                        ExerciseType.OUTDOOR -> context.startActivity(
                             Intent(
                                 context,
                                 MapsLocationActivity::class.java
@@ -203,9 +114,16 @@ fun ChallengesScreen(
                         )
                     }
                 },
-                enabled = !item.finished.value!!
+                enabled = !item.finished
             )
         }
     }
 
+}
+
+fun checkGoalType(exerciseType: ExerciseType): Boolean {
+    if (exerciseType == ExerciseType.RUN || exerciseType == ExerciseType.OUTDOOR) {
+        return true
+    }
+    return false
 }

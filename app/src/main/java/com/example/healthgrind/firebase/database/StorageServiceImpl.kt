@@ -28,7 +28,7 @@ class StorageServiceImpl @Inject constructor(
         private const val USER_COLLECTION = "users"
         private const val CHALLENGE_COLLECTION = "challenges"
         private const val REWARD_COLLECTION = "rewards"
-        private const val GAME_COLLECTION = "games"
+        private const val PLATFORM_COLLECTION = "platforms"
     }
 
     // USERS
@@ -61,47 +61,52 @@ class StorageServiceImpl @Inject constructor(
             currentPlatformCollection().snapshots().map { snapshot -> snapshot.toObjects() }
 
 
-    override suspend fun getGame(id: String): Platform? =
+    override suspend fun getPlatform(id: String): Platform? =
         currentPlatformCollection().document(id).get().await().toObject()
 
-    override suspend fun saveGame(platform: Platform) {
+    override suspend fun savePlatform(platform: Platform) {
         currentPlatformCollection().add(platform)
-            .addOnSuccessListener { Log.d(TAG, "GAME successfully written!") }
+            .addOnSuccessListener { Log.d(TAG, "PLATFORM successfully written!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }.await()
     }
 
-    override suspend fun updateGame(platform: Platform) {
+    override suspend fun updatePlatform(platform: Platform) {
         currentPlatformCollection().document(platform.id).set(platform)
-            .addOnSuccessListener { Log.d(TAG, "GAME successfully updated!") }
+            .addOnSuccessListener { Log.d(TAG, "PLATFORM successfully updated!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }.await()
     }
 
     private fun currentPlatformCollection(): CollectionReference =
-        currentUserDocument().collection(GAME_COLLECTION)
+        currentUserDocument().collection(PLATFORM_COLLECTION)
 
 
     // CHALLENGES
     override val challenges: Flow<List<NewChallenge>>
         get() =
-            currentChallengeCollection().snapshots()
+            allChallengesCollection().snapshots()
                 .map { snapshot -> snapshot.toObjects() }
 
     override suspend fun getChallenge(id: String): NewChallenge? =
-        currentChallengeCollection().document(id).get().await().toObject()
+        allChallengesCollection().document(id).get().await().toObject()
+
+    override suspend fun getSpecificChallenges(exercise: String): Flow<List<NewChallenge>> {
+        return allChallengesCollection().whereEqualTo("exerciseType", exercise)
+            .snapshots().map { snapshot -> snapshot.toObjects() }
+    }
 
     override suspend fun saveChallenge(challenge: NewChallenge) {
-        currentChallengeCollection().add(challenge)
+        allChallengesCollection().add(challenge)
             .addOnSuccessListener { Log.d(TAG, "CHALLENGE successfully written!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }.await()
     }
 
     override suspend fun updateChallenge(challenge: NewChallenge) {
-        currentChallengeCollection().document(challenge.id).set(challenge)
+        allChallengesCollection().document(challenge.id).set(challenge)
             .addOnSuccessListener { Log.d(TAG, "CHALLENGE successfully updated!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }.await()
     }
 
-    private fun currentChallengeCollection(): CollectionReference =
+    private fun allChallengesCollection(): CollectionReference =
         currentUserDocument().collection(CHALLENGE_COLLECTION)
 
 

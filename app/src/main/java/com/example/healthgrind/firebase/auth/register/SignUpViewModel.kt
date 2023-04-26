@@ -3,11 +3,10 @@ package com.example.healthgrind.firebase.auth.register
 import android.content.SharedPreferences
 import androidx.compose.runtime.mutableStateOf
 import androidx.navigation.NavHostController
-import com.example.healthgrind.data.ExerciseType
+import com.example.healthgrind.data.createAllChallengesForUser
 import com.example.healthgrind.firebase.HealthGrindViewModel
 import com.example.healthgrind.firebase.auth.debuglog.LogService
 import com.example.healthgrind.firebase.database.StorageService
-import com.example.healthgrind.firebase.database.challenge.NewChallenge
 import com.example.healthgrind.firebase.database.platform.Platform
 import com.example.healthgrind.firebase.database.reward.NewReward
 import com.example.healthgrind.firebase.isValidEmail
@@ -52,72 +51,8 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    private fun createAllChallengesForUser(): List<NewChallenge> {
-        return listOf(
-            NewChallenge(
-                title = "Schritte gehen",
-                isMandatory = true,
-                exerciseType = ExerciseType.WALK,
-                goal = 2000,
-            ),
-            NewChallenge(
-                title = "Schritte gehen",
-                isMandatory = true,
-                exerciseType = ExerciseType.WALK,
-                goal = 2000,
-            ),
-            NewChallenge(
-                title = "Schritte gehen",
-                isMandatory = true,
-                exerciseType = ExerciseType.WALK,
-                goal = 4000,
-            ),
-            NewChallenge(
-                title = "Schritte gehen",
-                isMandatory = true,
-                exerciseType = ExerciseType.WALK,
-                goal = 4000,
-            ),
-            NewChallenge(
-                title = "Minuten Laufen",
-                isMandatory = true,
-                exerciseType = ExerciseType.RUN,
-                goal = 60000 * 15,
-            ),
-            NewChallenge(
-                title = "Minuten Laufen",
-                isMandatory = true,
-                exerciseType = ExerciseType.RUN,
-                goal = 60000 * 15,
-            ),
-            NewChallenge(
-                title = "Minuten Laufen",
-                isMandatory = true,
-                exerciseType = ExerciseType.RUN,
-                goal = 60000 * 30,
-            ),
-            NewChallenge(
-                title = "Minuten Laufen",
-                isMandatory = true,
-                exerciseType = ExerciseType.RUN,
-                goal = 60000 * 30,
-            ),
-            NewChallenge(
-                title = "Push Ups",
-                isMandatory = true,
-                exerciseType = ExerciseType.STRENGTH,
-                goal = 50,
-            ),
-            NewChallenge(
-                title = "Squats",
-                isMandatory = true,
-                exerciseType = ExerciseType.STRENGTH,
-                goal = 50,
-            ),
-        )
-    }
 
-    suspend fun setRewardAndGames(profile: String) {
+    suspend fun setRewardAndPlatforms(profile: String) {
         var platform = Platform()
         var reward1 = NewReward()
         var reward2 = NewReward()
@@ -127,7 +62,7 @@ class SignUpViewModel @Inject constructor(
                 // GAMES ERSTELLEN UND ZUORDNEN
                 platform = Platform(
                     name = "FORTNITE/WARZONE",
-                    image = "Games/warzone.jpg"
+                    image = "Platforms/warzone.jpg"
                 )
                 // REWARDS ERSTELLEN UND ZUORDNEN
                 reward1 = NewReward(
@@ -144,7 +79,7 @@ class SignUpViewModel @Inject constructor(
             "ARIYAN" -> {
                 platform = Platform(
                     name = "APPLE STORE",
-                    image = "Games/apple.png"
+                    image = "Platforms/apple.png"
                 )
                 reward1 = NewReward(
                     title = "10€ Apple Store Guthaben",
@@ -160,7 +95,7 @@ class SignUpViewModel @Inject constructor(
             "BRIAN" -> {
                 platform = Platform(
                     name = "NINTENDO ONLINE",
-                    image = "Games/nintendo.jpg"
+                    image = "Platforms/nintendo.jpg"
                 )
                 reward1 = NewReward(
                     title = "10€ Nintendo Guthaben",
@@ -176,7 +111,7 @@ class SignUpViewModel @Inject constructor(
             "GERRIT" -> {
                 platform = Platform(
                     name = "WARZONE",
-                    image = "Games/warzone.jpg"
+                    image = "Platforms/warzone.jpg"
                 )
 
                 reward1 = NewReward(
@@ -193,7 +128,7 @@ class SignUpViewModel @Inject constructor(
             "JOSEPH" -> {
                 platform = Platform(
                     name = "STEAM STORE",
-                    image = "Games/steam.jpg"
+                    image = "Platforms/steam.jpg"
                 )
                 reward1 = NewReward(
                     title = "10€ Steam Guthaben",
@@ -209,7 +144,7 @@ class SignUpViewModel @Inject constructor(
             "JUSTUS" -> {
                 platform = Platform(
                     name = "APPLE STORE",
-                    image = "Games/apple.png"
+                    image = "Platforms/apple.png"
                 )
                 reward1 = NewReward(
                     title = "10€ Apple Store Guthaben",
@@ -241,7 +176,7 @@ class SignUpViewModel @Inject constructor(
             "KJELL" -> {
                 platform = Platform(
                     name = "RIOT STORE",
-                    image = "Games/riot.jpg"
+                    image = "Platforms/riot.jpg"
                 )
                 reward1 = NewReward(
                     title = "10€ Riot Points",
@@ -257,7 +192,7 @@ class SignUpViewModel @Inject constructor(
             "OLIVER" -> {
                 platform = Platform(
                     name = "PLAYSTATION/PLAY STORE",
-                    image = "Games/playstation.jpg"
+                    image = "Platforms/playstation.jpg"
                 )
                 reward1 = NewReward(
                     title = "10€ Playstation Guthaben",
@@ -273,7 +208,7 @@ class SignUpViewModel @Inject constructor(
             "QUAN" -> {
                 platform = Platform(
                     name = "RIOT STORE",
-                    image = "Games/riot.jpg"
+                    image = "Platforms/riot.jpg"
                 )
                 reward1 = NewReward(
                     title = "10€ Riot Points",
@@ -290,7 +225,7 @@ class SignUpViewModel @Inject constructor(
                 println("KEIN RICHTIGER WERT")
             }
         }
-        storageService.saveGame(platform)
+        storageService.savePlatform(platform)
         storageService.saveReward(reward1)
         storageService.saveReward(reward2)
     }
@@ -341,7 +276,7 @@ class SignUpViewModel @Inject constructor(
                 "level" -> storageService.updateCurrentUser(field = param, value = level)
                 "profile" -> {
                     storageService.updateCurrentUser(field = param, value = profile)
-                    setRewardAndGames(profile)
+                    setRewardAndPlatforms(profile)
                 }
                 "skill" -> storageService.updateCurrentUser(field = param, value = skill)
 

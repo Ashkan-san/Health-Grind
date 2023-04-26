@@ -1,11 +1,13 @@
-package com.example.healthgrind.presentation.screens
+package com.example.healthgrind.firebase.database.platform
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -20,14 +22,11 @@ import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.example.healthgrind.firebase.database.platform.Platform
-import com.example.healthgrind.firebase.database.platform.PlatformViewModel
+import com.example.healthgrind.data.loadPlatformImageFromStorage
 import com.example.healthgrind.presentation.navigation.Screen
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 
 @Composable
-fun GamesScreen(
+fun PlatformsScreen(
     navController: NavHostController,
     viewModel: PlatformViewModel = hiltViewModel()
 ) {
@@ -60,8 +59,9 @@ fun GamesScreen(
                 colors = ChipDefaults.imageBackgroundChipColors(
                     backgroundImagePainter = rememberAsyncImagePainter(
                         model = ImageRequest.Builder(LocalContext.current)
-                            .data(loadPlatformImageFromStorage(item = item))
-                            .build()
+                            .data(loadPlatformImageFromStorage(item.image))
+                            .build(),
+                        contentScale = ContentScale.None
                     )
                 ),
                 label = {
@@ -79,16 +79,3 @@ fun GamesScreen(
     }
 }
 
-@Composable
-fun loadPlatformImageFromStorage(item: Platform): String {
-    var link by remember { mutableStateOf("") }
-    val storageRef = Firebase.storage.reference
-
-    storageRef.child(item.image).downloadUrl.addOnSuccessListener {
-        link = it.toString()
-    }.addOnFailureListener {
-        println("DIGGA, BILD NICHT GEFUNDEN.")
-    }
-
-    return link
-}

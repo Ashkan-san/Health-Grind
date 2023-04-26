@@ -33,7 +33,6 @@ import androidx.wear.compose.material.Text
 import com.example.healthgrind.R
 import com.example.healthgrind.firebase.database.challenge.Challenge
 import com.example.healthgrind.presentation.screens.FullScreenProgressIndicator
-import com.example.healthgrind.presentation.screens.filteredChallenges
 import com.example.healthgrind.presentation.theme.HealthGrindTheme
 import com.example.healthgrind.viewmodel.MainViewModel
 
@@ -113,6 +112,8 @@ class WalkActivity : ComponentActivity(), SensorEventListener {
     fun WalkScreen(
         mainViewModel: MainViewModel, filChallIndex: String?, //dataSource: DataSource
     ) {
+        // TODO ändern wieder
+        var filteredChallenges = emptyArray<Challenge>()
         val challenge: Challenge = filteredChallenges[filChallIndex!!.toInt()]
 
         val steps by mainViewModel.stepCount.observeAsState(0)

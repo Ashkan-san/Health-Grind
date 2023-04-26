@@ -26,13 +26,15 @@ data class NewChallenge(
     @DocumentId val id: String = "",
 
     var title: String = "",
-    val isMandatory: Boolean = false,
-    val icon: Int = if (isMandatory) R.drawable.euro else R.drawable.heart,
+    val mandatory: Boolean = false,
+    val icon: Int = if (mandatory) R.drawable.euro else R.drawable.heart,
 
-    val exerciseType: ExerciseType,
+    val exerciseType: ExerciseType = ExerciseType.WALK,
+    //val difficulty: SkillType,
+    //val gameType: GameType,
 
     val current: Int = 0,
-    val goal: Int,
+    val goal: Int = 0,
     var finished: Boolean = false,
 ) /*{
     companion object {

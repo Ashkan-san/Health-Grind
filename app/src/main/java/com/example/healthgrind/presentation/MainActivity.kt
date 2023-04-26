@@ -13,9 +13,12 @@ import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.example.healthgrind.data.DataSource
 import com.example.healthgrind.firebase.auth.register.SignUpScreen
+import com.example.healthgrind.firebase.database.challenge.ChallengesScreen
+import com.example.healthgrind.firebase.database.platform.PlatformsScreen
 import com.example.healthgrind.firebase.database.reward.TestRewardScreen
 import com.example.healthgrind.presentation.navigation.Screen
 import com.example.healthgrind.presentation.screens.*
+import com.example.healthgrind.presentation.screens.challenge.ExercisesScreen
 import com.example.healthgrind.presentation.screens.input.ProfileInputScreen
 import com.example.healthgrind.presentation.theme.HealthGrindTheme
 import com.example.healthgrind.viewmodel.MainViewModel
@@ -110,8 +113,8 @@ class MainActivity : ComponentActivity() {
             }
 
             // GAMES/EXERCISES/CHALLENGES/REWARDS
-            composable(Screen.Games.route) {
-                GamesScreen(navController = navController)
+            composable(Screen.Platforms.route) {
+                PlatformsScreen(navController = navController)
             }
             composable(
                 "${Screen.Exercises.route}/{id}"
@@ -126,10 +129,8 @@ class MainActivity : ComponentActivity() {
             ) {
                 ChallengesScreen(
                     navController = navController,
-                    dataSource = dataSource,
-                    id = it.arguments?.getString("id"),
-                    id2 = it.arguments?.getString("id2"),
-                    pref = pref,
+                    platformId = it.arguments?.getString("id"),
+                    exerciseId = it.arguments?.getString("id2"),
                     mainViewModel = mainViewModel
                 )
             }

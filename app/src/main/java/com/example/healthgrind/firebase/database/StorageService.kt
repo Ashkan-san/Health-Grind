@@ -17,13 +17,14 @@ interface StorageService {
     // GAMES
     val platforms: Flow<List<Platform>>
 
-    suspend fun getGame(id: String): Platform?
-    suspend fun saveGame(platform: Platform)
-    suspend fun updateGame(platform: Platform)
+    suspend fun getPlatform(id: String): Platform?
+    suspend fun savePlatform(platform: Platform)
+    suspend fun updatePlatform(platform: Platform)
 
     // CHALLENGES
     val challenges: Flow<List<NewChallenge>>
 
+    suspend fun getSpecificChallenges(exercise: String): Flow<List<NewChallenge>>
     suspend fun getChallenge(id: String): NewChallenge?
     suspend fun saveChallenge(challenge: NewChallenge)
     suspend fun updateChallenge(challenge: NewChallenge)

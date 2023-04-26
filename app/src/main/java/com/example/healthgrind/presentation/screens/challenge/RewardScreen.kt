@@ -55,6 +55,8 @@ fun RewardScreen(
             }
 
             if (showDialog) {
+                // TODO wieder ändern
+                var filteredChallenges = emptyArray<Challenge>()
                 val challenge: Challenge = filteredChallenges[filChallIndex!!.toInt()]
 
                 Dialog(

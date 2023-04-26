@@ -5,18 +5,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.Text
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
+import com.example.healthgrind.data.LoadImageFromStorage
 
 @Composable
 @ExperimentalMaterialApi
@@ -42,32 +38,16 @@ fun RewardChip(
             )
         },
         icon = {
-            LoadImageFromStorage(reward)
+            LoadImageFromStorage(
+                reward.image,
+                Modifier
+                    .size(24.dp)
+                    .wrapContentSize(align = Alignment.Center)
+            )
         },
         onClick = {
             //onCheckChange()
         },
         enabled = !reward.redeemed
-    )
-}
-
-@Composable
-fun LoadImageFromStorage(item: NewReward) {
-    var link by remember { mutableStateOf("") }
-    val storageRef = Firebase.storage.reference
-
-    storageRef.child(item.image).downloadUrl.addOnSuccessListener {
-        link = it.toString()
-    }.addOnFailureListener {
-        println("DIGGA, BILD NICHT GEFUNDEN.")
-    }
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(link)
-            .build(),
-        contentDescription = "Image",
-        modifier = Modifier
-            .size(24.dp)
-            .wrapContentSize(align = Alignment.Center)
     )
 }

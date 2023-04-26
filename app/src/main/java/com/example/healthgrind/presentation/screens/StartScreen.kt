@@ -44,11 +44,11 @@ fun StartScreen(navController: NavHostController, pref: SharedPreferences) {
             ) {
                 item {
                     Button(onClick = {
-                        navController.navigate(Screen.Games.route)
+                        navController.navigate(Screen.Platforms.route)
                     }) {
                         Icon(
-                            painter = painterResource(R.drawable.games),
-                            contentDescription = "Games"
+                            painter = painterResource(R.drawable.platform),
+                            contentDescription = "Platforms"
                         )
                     }
                 }

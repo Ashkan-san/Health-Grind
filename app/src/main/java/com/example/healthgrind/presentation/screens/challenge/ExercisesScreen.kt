@@ -1,4 +1,4 @@
-package com.example.healthgrind.presentation.screens
+package com.example.healthgrind.presentation.screens.challenge
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +18,7 @@ import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.example.healthgrind.R
+import com.example.healthgrind.data.ExerciseType
 import com.example.healthgrind.presentation.navigation.Screen
 
 @Composable
@@ -31,9 +32,7 @@ fun ExercisesScreen(navController: NavHostController, id: String?) {
         horizontalAlignment = Alignment.CenterHorizontally,
         userScrollEnabled = false,
         state = listState
-
     ) {
-        // TITLE
         item {
             Text(
                 modifier = Modifier.fillMaxWidth(),
@@ -51,7 +50,7 @@ fun ExercisesScreen(navController: NavHostController, id: String?) {
                 item {
                     Button(
                         onClick = {
-                            navController.navigate("${Screen.Challenges.route}/${id}/RUN")
+                            navController.navigate("${Screen.Challenges.route}/${id}/${ExerciseType.RUN.name}")
                         }) {
                         Icon(
                             painter = painterResource(R.drawable.sprint),
@@ -62,7 +61,7 @@ fun ExercisesScreen(navController: NavHostController, id: String?) {
                 item {
                     Button(
                         onClick = {
-                            navController.navigate("${Screen.Challenges.route}/${id}/WALK")
+                            navController.navigate("${Screen.Challenges.route}/${id}/${ExerciseType.WALK.name}")
                         }) {
                         Icon(
                             painter = painterResource(R.drawable.walk),
@@ -81,7 +80,7 @@ fun ExercisesScreen(navController: NavHostController, id: String?) {
                 item {
                     Button(
                         onClick = {
-                            navController.navigate("${Screen.Challenges.route}/${id}/STRENGTH")
+                            navController.navigate("${Screen.Challenges.route}/${id}/${ExerciseType.STRENGTH.name}")
                         }) {
                         Icon(
                             painter = painterResource(R.drawable.strength),
@@ -92,7 +91,7 @@ fun ExercisesScreen(navController: NavHostController, id: String?) {
                 item {
                     Button(
                         onClick = {
-                            navController.navigate("${Screen.Challenges.route}/${id}/OUTDOOR")
+                            navController.navigate("${Screen.Challenges.route}/${id}/${ExerciseType.OUTDOOR.name}")
                         }) {
                         Icon(
                             painter = painterResource(R.drawable.outdoor),

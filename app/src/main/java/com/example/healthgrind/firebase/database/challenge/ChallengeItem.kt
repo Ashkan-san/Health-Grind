@@ -19,7 +19,7 @@ import androidx.wear.compose.material.Text
 import com.example.healthgrind.presentation.MapsLocationActivity
 import com.example.healthgrind.presentation.WalkActivity
 import com.example.healthgrind.presentation.navigation.Screen
-import com.example.healthgrind.presentation.screens.filteredChallenges
+import com.example.healthgrind.firebase.database.challenge.getFilteredChallenges
 import com.example.healthgrind.presentation.screens.myFormatTime
 
 @Composable

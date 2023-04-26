@@ -16,9 +16,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.wear.compose.material.*
 import com.example.healthgrind.data.DataSource
+import com.example.healthgrind.data.myFormatTime
 import com.example.healthgrind.presentation.AutoResizingText
 import com.example.healthgrind.viewmodel.MainViewModel
-import java.util.concurrent.TimeUnit
 
 @Composable
 fun RunningScreen(
@@ -136,9 +136,3 @@ fun CountDownButton(
         )
     }
 }
-
-fun myFormatTime(value: Long): String = String.format(
-    "%02d:%02d",
-    TimeUnit.MILLISECONDS.toMinutes(value),
-    TimeUnit.MILLISECONDS.toSeconds(value) % 60
-)

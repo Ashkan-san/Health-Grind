@@ -32,6 +32,8 @@ fun StrengthScreen(
     navController: NavHostController,
     dataSource: DataSource
 ) {
+    // TODO wieder ändern
+    var filteredChallenges = emptyArray<Challenge>()
     val challenge: Challenge = filteredChallenges[filChallIndex!!.toInt()]
 
     val reps by mainViewModel.reps.observeAsState(0F)
@@ -113,6 +115,8 @@ fun disableChallengeChip(
     if (weiter) {
         var bestIndex = 0
         dataSource.challenges.forEachIndexed { index, item ->
+            // TODO wieder ändern
+            var filteredChallenges = emptyArray<Challenge>()
             if (item.key == filteredChallenges[filChallIndex.toInt()].key) {
                 bestIndex = index
             }
