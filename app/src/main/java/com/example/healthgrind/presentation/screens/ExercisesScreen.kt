@@ -1,4 +1,4 @@
-package com.example.healthgrind.presentation.screens.challenge
+package com.example.healthgrind.presentation.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +19,6 @@ import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.example.healthgrind.R
 import com.example.healthgrind.data.ExerciseType
-import com.example.healthgrind.presentation.navigation.Screen
 
 @Composable
 fun ExercisesScreen(navController: NavHostController, id: String?) {

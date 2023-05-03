@@ -1,6 +1,8 @@
 package com.example.healthgrind.firebase.auth.register
 
+import android.content.ContentValues.TAG
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.navigation.NavHostController
 import com.example.healthgrind.data.createAllChallengesForUser
@@ -9,9 +11,7 @@ import com.example.healthgrind.firebase.auth.debuglog.LogService
 import com.example.healthgrind.firebase.database.StorageService
 import com.example.healthgrind.firebase.database.platform.Platform
 import com.example.healthgrind.firebase.database.reward.NewReward
-import com.example.healthgrind.firebase.isValidEmail
-import com.example.healthgrind.firebase.isValidPassword
-import com.example.healthgrind.presentation.navigation.Screen
+import com.example.healthgrind.presentation.screens.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -51,30 +51,31 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-
-    suspend fun setRewardAndPlatforms(profile: String) {
+    suspend fun setProfile(profile: String) {
         var platform = Platform()
         var reward1 = NewReward()
         var reward2 = NewReward()
+        var imagePath = "Users/"
 
         when (profile) {
             "ARDIAN" -> {
                 // GAMES ERSTELLEN UND ZUORDNEN
                 platform = Platform(
-                    name = "FORTNITE/WARZONE",
+                    name = "WARZONE",
                     image = "Platforms/warzone.jpg"
                 )
                 // REWARDS ERSTELLEN UND ZUORDNEN
                 reward1 = NewReward(
-                    title = "10€ Call of Duty Points",
+                    title = "10€ CoD Points",
                     value = "",
                     image = "Rewards/cod-code.jpg"
                 )
                 reward2 = NewReward(
-                    title = "10€ V-Bucks",
+                    title = "10€ CoD Points",
                     value = "",
-                    image = "Rewards/fortnite-code.jpeg"
+                    image = "Rewards/cod-code.jpg"
                 )
+                imagePath += "ardian.jpg"
             }
             "ARIYAN" -> {
                 platform = Platform(
@@ -82,15 +83,16 @@ class SignUpViewModel @Inject constructor(
                     image = "Platforms/apple.png"
                 )
                 reward1 = NewReward(
-                    title = "10€ Apple Store Guthaben",
+                    title = "10€ Apple Guthaben",
                     value = "",
                     image = "Rewards/apple-code.png"
                 )
                 reward2 = NewReward(
-                    title = "10€ Apple Store Guthaben",
+                    title = "10€ Apple Guthaben",
                     value = "",
                     image = "Rewards/apple-code.png"
                 )
+                imagePath += "ariyan.jpg"
             }
             "BRIAN" -> {
                 platform = Platform(
@@ -107,6 +109,7 @@ class SignUpViewModel @Inject constructor(
                     value = "",
                     image = "Rewards/nintendo-code.png"
                 )
+                imagePath += "brian.jpg"
             }
             "GERRIT" -> {
                 platform = Platform(
@@ -115,15 +118,33 @@ class SignUpViewModel @Inject constructor(
                 )
 
                 reward1 = NewReward(
-                    title = "10€ Call of Duty Points",
+                    title = "10€ CoD Points",
                     value = "",
                     image = "Rewards/cod-code.jpg"
                 )
                 reward2 = NewReward(
-                    title = "10€ Call of Duty Points",
+                    title = "10€ CoD Points",
                     value = "",
                     image = "Rewards/cod-code.jpg"
                 )
+                imagePath += "gerrit.jpg"
+            }
+            "JILL" -> {
+                platform = Platform(
+                    name = "STEAM STORE",
+                    image = "Platforms/steam.jpg"
+                )
+                reward1 = NewReward(
+                    title = "10€ Steam Guthaben",
+                    value = "",
+                    image = "Rewards/steam-code.png"
+                )
+                reward2 = NewReward(
+                    title = "10€ Steam Guthaben",
+                    value = "",
+                    image = "Rewards/steam-code.png"
+                )
+                imagePath += "jill.jpg"
             }
             "JOSEPH" -> {
                 platform = Platform(
@@ -140,6 +161,7 @@ class SignUpViewModel @Inject constructor(
                     value = "",
                     image = "Rewards/steam-code.png"
                 )
+                imagePath += "joseph.jpg"
             }
             "JUSTUS" -> {
                 platform = Platform(
@@ -147,31 +169,16 @@ class SignUpViewModel @Inject constructor(
                     image = "Platforms/apple.png"
                 )
                 reward1 = NewReward(
-                    title = "10€ Apple Store Guthaben",
+                    title = "10€ Apple Guthaben",
                     value = "",
                     image = "Rewards/apple-code.png"
                 )
                 reward2 = NewReward(
-                    title = "10€ Apple Store Guthaben",
+                    title = "10€ Apple Guthaben",
                     value = "",
                     image = "Rewards/apple-code.png"
                 )
-            }
-            "KATHLEEN" -> {
-                platform = Platform(
-                    name = "",
-                    image = ""
-                )
-                reward1 = NewReward(
-                    title = "",
-                    value = "",
-                    image = ""
-                )
-                reward2 = NewReward(
-                    title = "",
-                    value = "",
-                    image = ""
-                )
+                imagePath += "justus.jpg"
             }
             "KJELL" -> {
                 platform = Platform(
@@ -188,22 +195,24 @@ class SignUpViewModel @Inject constructor(
                     value = "",
                     image = "Rewards/riot-code.jpg"
                 )
+                imagePath += "kjell.jpg"
             }
             "OLIVER" -> {
                 platform = Platform(
-                    name = "PLAYSTATION/PLAY STORE",
+                    name = "PLAYSTATION STORE",
                     image = "Platforms/playstation.jpg"
                 )
                 reward1 = NewReward(
-                    title = "10€ Playstation Guthaben",
+                    title = "10€ PS Guthaben",
                     value = "",
                     image = "Rewards/playstation-code.png"
                 )
                 reward2 = NewReward(
-                    title = "10€ Play Store Guthaben",
+                    title = "10€ PS Guthaben",
                     value = "",
-                    image = "Rewards/playstore-code.png"
+                    image = "Rewards/playstation-code.png"
                 )
+                imagePath += "oliver.jpg"
             }
             "QUAN" -> {
                 platform = Platform(
@@ -220,14 +229,16 @@ class SignUpViewModel @Inject constructor(
                     value = "",
                     image = "Rewards/riot-code.jpg"
                 )
+                imagePath += "quan.jpg"
             }
             else -> {
-                println("KEIN RICHTIGER WERT")
+                Log.d(TAG, "USER NICHT GEFUNDEN.")
             }
         }
         storageService.savePlatform(platform)
         storageService.saveReward(reward1)
         storageService.saveReward(reward2)
+        storageService.updateCurrentUser("image", imagePath)
     }
 
     fun onSignUpClick(navController: NavHostController): Boolean {
@@ -276,9 +287,12 @@ class SignUpViewModel @Inject constructor(
                 "level" -> storageService.updateCurrentUser(field = param, value = level)
                 "profile" -> {
                     storageService.updateCurrentUser(field = param, value = profile)
-                    setRewardAndPlatforms(profile)
+                    setProfile(profile)
                 }
-                "skill" -> storageService.updateCurrentUser(field = param, value = skill)
+                "skill" -> {
+                    storageService.updateCurrentUser(field = param, value = skill)
+
+                }
 
                 else -> {}
             }

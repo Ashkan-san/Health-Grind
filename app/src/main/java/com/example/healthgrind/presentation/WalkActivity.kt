@@ -31,10 +31,10 @@ import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.example.healthgrind.R
+import com.example.healthgrind.data.FullScreenProgressIndicator
 import com.example.healthgrind.firebase.database.challenge.Challenge
-import com.example.healthgrind.presentation.screens.FullScreenProgressIndicator
+import com.example.healthgrind.presentation.screens.MainViewModel
 import com.example.healthgrind.presentation.theme.HealthGrindTheme
-import com.example.healthgrind.viewmodel.MainViewModel
 
 
 class WalkActivity : ComponentActivity(), SensorEventListener {

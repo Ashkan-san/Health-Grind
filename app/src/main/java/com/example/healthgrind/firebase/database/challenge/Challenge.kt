@@ -33,7 +33,7 @@ data class NewChallenge(
     //val difficulty: SkillType,
     //val gameType: GameType,
 
-    val current: Int = 0,
+    var current: Int = 0,
     val goal: Int = 0,
     var finished: Boolean = false,
 ) /*{

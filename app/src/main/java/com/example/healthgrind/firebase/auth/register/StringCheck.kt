@@ -1,4 +1,4 @@
-package com.example.healthgrind.firebase
+package com.example.healthgrind.firebase.auth.register
 
 import android.util.Patterns
 import java.util.regex.Pattern

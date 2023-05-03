@@ -39,7 +39,7 @@ enum class GenderType {
 }
 
 enum class ProfileType {
-    ARDIAN, ARIYAN, BRIAN, GERRIT, JOSEPH, JUSTUS, KATHLEEN, KJELL, OLIVER, QUAN;
+    ARDIAN, ARIYAN, BRIAN, GERRIT, JILL, JOSEPH, JUSTUS, KJELL, OLIVER, QUAN;
 
     companion object {
         fun getList(): List<String> {

@@ -1,4 +1,4 @@
-package com.example.healthgrind.presentation.navigation
+package com.example.healthgrind.presentation.screens
 
 sealed class Screen(val route: String) {
     object FirstStart : Screen("first")
@@ -15,6 +15,9 @@ sealed class Screen(val route: String) {
     object Walk : Screen("walk")
     object Strength : Screen("strength")
     object RewardDialog : Screen("rewardDialog")
+
+    // TODO TEST
+    object Training : Screen("training")
 
     object PlayerInfo : Screen("playerInfo")
     object NameInput : Screen("nameInput")

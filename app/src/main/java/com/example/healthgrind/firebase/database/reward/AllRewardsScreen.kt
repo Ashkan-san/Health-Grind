@@ -14,17 +14,21 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
-import androidx.wear.compose.foundation.lazy.items
+import androidx.wear.compose.foundation.lazy.itemsIndexed
 import androidx.wear.compose.material.MaterialTheme
+import com.example.healthgrind.firebase.database.challenge.ChallengeViewModel
 
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun TestRewardScreen(
+fun AllRewardsScreen(
     navController: NavHostController,
-    viewModel: RewardViewModel = hiltViewModel()
+    rewardViewModel: RewardViewModel = hiltViewModel(),
+    challengeViewModel: ChallengeViewModel
 ) {
-    val rewards = viewModel.rewards.collectAsState(initial = emptyList())
+    val rewards = rewardViewModel.rewards.collectAsState(initial = emptyList())
+
+    val mandatoryCount = challengeViewModel.completedMandatoryCount.value
 
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -42,10 +46,10 @@ fun TestRewardScreen(
         }
 
         // BUTTON DER REWARD AKTUALISIERT
-        items(rewards.value) { reward ->
+        itemsIndexed(rewards.value) { index, reward ->
             RewardChip(
                 reward = reward,
-                onCheckChange = { viewModel.onRewardRedeemed(reward) }
+                onRedeem = { rewardViewModel.onUpdateReward(reward, index, mandatoryCount) }
             )
         }
     }

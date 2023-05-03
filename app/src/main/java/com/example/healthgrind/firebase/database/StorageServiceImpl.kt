@@ -48,7 +48,7 @@ class StorageServiceImpl @Inject constructor(
 
     override suspend fun updateCurrentUser(field: String, value: Any) {
         currentUserDocument().update(field, value)
-            .addOnSuccessListener { Log.d(TAG, "USER successfully updated!") }
+            .addOnSuccessListener { Log.d(TAG, "USER (${field}, ${value}) successfully updated!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }.await()
     }
 
@@ -133,4 +133,7 @@ class StorageServiceImpl @Inject constructor(
 
     private fun currentRewardCollection(): CollectionReference =
         currentUserDocument().collection(REWARD_COLLECTION)
+
+
+    // EXTRA DATA
 }

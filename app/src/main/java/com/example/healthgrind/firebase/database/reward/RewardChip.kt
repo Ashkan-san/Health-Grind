@@ -18,7 +18,7 @@ import com.example.healthgrind.data.LoadImageFromStorage
 @ExperimentalMaterialApi
 fun RewardChip(
     reward: NewReward,
-    onCheckChange: () -> Unit
+    onRedeem: () -> Unit
 ) {
     Chip(
         modifier = Modifier
@@ -46,7 +46,7 @@ fun RewardChip(
             )
         },
         onClick = {
-            //onCheckChange()
+            onRedeem()
         },
         enabled = !reward.redeemed
     )

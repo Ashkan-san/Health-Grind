@@ -14,18 +14,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.wear.compose.material.*
-import com.example.healthgrind.data.DataSource
+import androidx.wear.compose.material.Button
+import androidx.wear.compose.material.Icon
+import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.Text
+import com.example.healthgrind.data.FullScreenProgressIndicator
 import com.example.healthgrind.data.myFormatTime
 import com.example.healthgrind.presentation.AutoResizingText
-import com.example.healthgrind.viewmodel.MainViewModel
 
 @Composable
 fun RunningScreen(
     mainViewModel: MainViewModel,
     filChallIndex: String?,
-    navController: NavHostController,
-    dataSource: DataSource
+    navController: NavHostController
 ) {
     val time by mainViewModel.time.observeAsState(0L)
     val progress by mainViewModel.progress.observeAsState(1.00F)
@@ -75,29 +76,7 @@ fun RunningScreen(
         }
     }
     FullScreenProgressIndicator(progress = progress)
-    disableChallengeChip(weiter, dataSource, filChallIndex!!, mainViewModel, navController)
-}
-
-@Composable
-fun FullScreenProgressIndicator(
-    progress: Float
-) {
-    // PROGRESS INDICATOR
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator(
-            // in 360° ab 3 Uhr
-            //startAngle = 315f,
-            //endAngle = 225f,
-            trackColor = MaterialTheme.colors.primary,
-            indicatorColor = MaterialTheme.colors.primaryVariant,
-            strokeWidth = 10.dp,
-            // Progress von 0.0 bis 1.0
-            progress = progress,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(all = 1.dp)
-        )
-    }
+    //disableChallengeChip(weiter, dataSource, filChallIndex!!, mainViewModel, navController)
 }
 
 @Composable

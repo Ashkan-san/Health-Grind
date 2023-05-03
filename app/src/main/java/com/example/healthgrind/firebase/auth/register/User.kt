@@ -13,8 +13,6 @@ data class User(
     var age: Int = 0,
     var weight: Int = 0,
     var height: Int = 0,
-
-    // TODO evt Datentyp ändern wegen Firestore
     var gender: String = "",
     var skill: String = "",
     var level: Int = 0,

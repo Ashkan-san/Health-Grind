@@ -23,7 +23,7 @@ import androidx.wear.compose.material.Text
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.healthgrind.data.loadPlatformImageFromStorage
-import com.example.healthgrind.presentation.navigation.Screen
+import com.example.healthgrind.presentation.screens.Screen
 
 @Composable
 fun PlatformsScreen(

@@ -1,4 +1,4 @@
-package com.example.healthgrind.viewmodel
+package com.example.healthgrind.presentation.screens
 
 import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
@@ -170,11 +170,11 @@ class MainViewModel() : ViewModel() {
         _showDialog.value = bool
     }
 
-}
 
+    private val _pushUp = MutableLiveData(0)
+    val pushUp: LiveData<Int> = _pushUp
+    fun setPushUpCount(pushUpCount: Int) {
+        _pushUp.value = pushUpCount
+    }
 
-/*
-class MainViewModelFactory(val pref: SharedPreferences) : ViewModelProvider.NewInstanceFactory() {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T = MainViewModel(pref) as T
 }
-*/

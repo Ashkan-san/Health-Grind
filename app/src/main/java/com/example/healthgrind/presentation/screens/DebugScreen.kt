@@ -17,17 +17,15 @@ import com.example.healthgrind.R
 import com.example.healthgrind.presentation.HealthActivity
 import com.example.healthgrind.presentation.MapActivity
 import com.example.healthgrind.presentation.MapsLocationActivity
-import com.example.healthgrind.presentation.navigation.Screen
 
 @Composable
 fun DebugScreen(navController: NavHostController) {
-    val listState = rememberScalingLazyListState()
     val context = LocalContext.current
 
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        state = listState
+        state = rememberScalingLazyListState()
     ) {
 
         item {

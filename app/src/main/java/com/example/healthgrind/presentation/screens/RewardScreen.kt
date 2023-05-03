@@ -25,8 +25,6 @@ import androidx.wear.compose.material.dialog.Dialog
 import androidx.wear.compose.material.dialog.DialogDefaults
 import com.example.healthgrind.R
 import com.example.healthgrind.firebase.database.challenge.Challenge
-import com.example.healthgrind.presentation.navigation.Screen
-import com.example.healthgrind.viewmodel.MainViewModel
 
 
 @Composable

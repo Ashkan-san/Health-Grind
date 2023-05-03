@@ -19,7 +19,6 @@ import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.example.healthgrind.R
-import com.example.healthgrind.presentation.navigation.Screen
 
 @Composable
 fun FirstStartScreen(navController: NavHostController) {

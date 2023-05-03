@@ -11,7 +11,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.itemsIndexed
@@ -21,27 +20,24 @@ import com.example.healthgrind.data.ExerciseType
 import com.example.healthgrind.data.myFormatTime
 import com.example.healthgrind.presentation.MapsLocationActivity
 import com.example.healthgrind.presentation.WalkActivity
-import com.example.healthgrind.presentation.navigation.Screen
-import com.example.healthgrind.viewmodel.MainViewModel
+import com.example.healthgrind.presentation.screens.Screen
 
 @Composable
 fun ChallengesScreen(
     navController: NavHostController,
     platformId: String?,
     exerciseId: String?,
-    mainViewModel: MainViewModel,
-    viewModel: ChallengeViewModel = hiltViewModel()
+    viewModel: ChallengeViewModel
 ) {
-    val listState = rememberScalingLazyListState()
     val context = LocalContext.current
 
-    val challengesList = viewModel.challenges.collectAsState(initial = emptyList())
     viewModel.filterChallengesAndGet(exerciseId!!)
+    val challengesList = viewModel.challenges!!.collectAsState(initial = emptyList())
 
     ScalingLazyColumn(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        state = listState
+        state = rememberScalingLazyListState()
 
     ) {
         item {
@@ -86,26 +82,30 @@ fun ChallengesScreen(
                 icon = {
                     Icon(
                         painter = painterResource(id = item.icon),
-                        contentDescription = "Icon Name",
+                        contentDescription = "Icon",
                         modifier = Modifier
                             .size(24.dp)
                             .wrapContentSize(align = Alignment.Center)
                     )
                 },
                 onClick = {
+                    viewModel.setCurrentChallenge(item)
+
                     when (item.exerciseType) {
-                        ExerciseType.RUN -> {
-                            //mainViewModel.setTimeGoal(filteredChallenges[index].goal.toLong())
-                            navController.navigate("${Screen.Running.route}/${index}")
+                        ExerciseType.STRENGTH -> {
+                            navController.navigate("${Screen.Strength.route}/${item.id}")
                         }
 
+
+                        ExerciseType.RUN -> {
+                            navController.navigate("${Screen.Running.route}/${index}")
+                        }
                         ExerciseType.WALK -> context.startActivity(
                             Intent(context, WalkActivity::class.java).putExtra(
                                 "index",
                                 index.toString()
                             )
                         )
-                        ExerciseType.STRENGTH -> navController.navigate("${Screen.Strength.route}/${index}")
                         ExerciseType.OUTDOOR -> context.startActivity(
                             Intent(
                                 context,

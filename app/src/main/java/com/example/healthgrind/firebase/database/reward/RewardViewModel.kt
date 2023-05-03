@@ -9,17 +9,21 @@ import javax.inject.Inject
 @HiltViewModel
 class RewardViewModel @Inject constructor(
     logService: LogService,
-    private val storageService: StorageService,
+    private val storageService: StorageService
 ) : HealthGrindViewModel(logService) {
-
-    // TODO WAS BRAUCHEN WIR AN USE CASES?
-    // Rewards redeemen
-    // Rewards auflisten (nur die freigeschalteten bzw. code verstecken)
     val rewards = storageService.rewards
 
-    fun onRewardRedeemed(reward: NewReward) {
+    // Wenn 5 erreicht dann Code in AllRewardsScreen unlocken und das selbe bei 10
+    fun onUpdateReward(reward: NewReward, index: Int, mandatoryCount: Int) {
         launchCatching {
-            storageService.updateReward(reward.copy(redeemed = true))
+            println("COUNT" + mandatoryCount)
+            if (mandatoryCount >= 5 && index == 0) {
+                storageService.updateReward(reward.copy(redeemed = true))
+            }
+
+            if (mandatoryCount >= 10 && index == 1) {
+                storageService.updateReward(reward.copy(redeemed = true))
+            }
         }
     }
 }

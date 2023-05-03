@@ -16,7 +16,6 @@ import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.Text
 import com.example.healthgrind.data.LoadImageFromStorage
 import com.example.healthgrind.firebase.auth.register.SignUpViewModel
-import com.example.healthgrind.presentation.navigation.Screen
 import java.util.*
 
 @Composable

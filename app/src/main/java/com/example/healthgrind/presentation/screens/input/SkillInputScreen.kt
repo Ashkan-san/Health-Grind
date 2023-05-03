@@ -21,7 +21,6 @@ import androidx.wear.compose.material.*
 import com.example.healthgrind.R
 import com.example.healthgrind.data.SkillType
 import com.example.healthgrind.firebase.auth.register.SignUpViewModel
-import com.example.healthgrind.presentation.navigation.Screen
 
 @Composable
 fun SkillInputScreen(

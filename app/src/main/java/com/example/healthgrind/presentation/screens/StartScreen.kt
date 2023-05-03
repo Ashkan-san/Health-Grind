@@ -16,7 +16,6 @@ import androidx.navigation.NavHostController
 import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.Icon
 import com.example.healthgrind.R
-import com.example.healthgrind.presentation.navigation.Screen
 
 @Composable
 fun StartScreen(navController: NavHostController, pref: SharedPreferences) {
