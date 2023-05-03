@@ -15,7 +15,7 @@ package com.example.healthgrind.presentation
  * TODO Kraft, Run, Walk, Outdoor Screens überarbeiten
  * TODO Alle User löschen impl
  *
- * 
+ * TODO neuer RewardDialog
  *
  * SPORT
  * TODO Sportarten erkennen und so
