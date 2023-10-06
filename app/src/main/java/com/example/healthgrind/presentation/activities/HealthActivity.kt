@@ -1,5 +1,7 @@
-package com.example.healthgrind.presentation
+package com.example.healthgrind.presentation.activities
 
+
+/*
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.hardware.Sensor
@@ -12,7 +14,6 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
+import androidx.wear.compose.material.Text
 import com.example.healthgrind.presentation.screens.MainViewModel
 import com.example.healthgrind.presentation.theme.HealthGrindTheme
 
@@ -62,13 +64,9 @@ class HealthActivity : ComponentActivity(), SensorEventListener {
         val accelX by mainViewModel.accelX.observeAsState("")
         val accelY by mainViewModel.accelY.observeAsState("")
         val accelZ by mainViewModel.accelZ.observeAsState("")
-        val heart by mainViewModel.heart.observeAsState("")
-        val stepCount by mainViewModel.stepCount.observeAsState("")
         val gyroX by mainViewModel.gyroX.observeAsState("")
         val gyroY by mainViewModel.gyroY.observeAsState("")
         val gyroZ by mainViewModel.gyroZ.observeAsState("")
-
-        val pushUp by mainViewModel.pushUp.observeAsState()
 
         HealthGrindTheme {
             ScalingLazyColumn(
@@ -78,10 +76,6 @@ class HealthActivity : ComponentActivity(), SensorEventListener {
                 state = rememberScalingLazyListState(),
                 userScrollEnabled = false
             ) {
-                item { Text(text = "Push Ups: $pushUp", color = Color.White) }
-
-                item { Text(text = "Heart Rate: $heart", color = Color.White) }
-                item { Text(text = "Step Count: $stepCount", color = Color.White) }
                 item { Text(text = "Acceleration: $accelX, $accelY, $accelZ", color = Color.White) }
                 item { Text(text = "Gyro: $gyroX, $gyroY, $gyroZ", color = Color.White) }
             }
@@ -92,27 +86,26 @@ class HealthActivity : ComponentActivity(), SensorEventListener {
         Log.d(TAG, "ACCURACY CHANGED: $accuracy")
     }
 
-    /*// Constants for push-up detection
+
+    //Constants for push-up detection
     private val PUSH_UP_THRESHOLD = 8f
     private val MIN_PUSH_UP_TIME_NS = 500000000 // 500ms
 
     // Variables for push-up detection
     private var lastPushUpTime: Long = 0
     private var pushUpCount = 0
-    private var wasPushingUp = false*/
+    private var wasPushingUp = false
 
     override fun onSensorChanged(event: SensorEvent) {
         if (::mainViewModel.isInitialized) {
             when (event.sensor.type) {
                 Sensor.TYPE_HEART_RATE -> {
                     val msg = "" + event.values[0].toInt()
-                    mainViewModel.setHeart(msg)
                 }
                 Sensor.TYPE_STEP_COUNTER -> {
                     val msg = event.values[0].toInt()
                     println("FLOAT:" + event.values[0])
                     println("INT: " + msg)
-                    mainViewModel.setStepCount(msg)
                 }
                 Sensor.TYPE_GYROSCOPE -> {
                     val msg1 = "" + event.values[0].toInt()
@@ -125,7 +118,8 @@ class HealthActivity : ComponentActivity(), SensorEventListener {
                     val y = event.values[1]
                     val z = event.values[2]
 
-                    /*// Calculate the magnitude of the acceleration vector
+
+// Calculate the magnitude of the acceleration vector
                     val acceleration = sqrt(x * x + y * y + z * z)
 
                     // Check if push-up was performed
@@ -146,7 +140,8 @@ class HealthActivity : ComponentActivity(), SensorEventListener {
                                 wasPushingUp = false
                             }
                         }
-                    }*/
+                    }
+
                 }
                 else -> Log.d(TAG, "SENSORS NOT FOUND")
             }
@@ -173,3 +168,4 @@ class HealthActivity : ComponentActivity(), SensorEventListener {
     }
 
 }
+*/

@@ -1,7 +1,13 @@
 package com.example.healthgrind.presentation.screens.input
 
 import android.content.SharedPreferences
-import androidx.compose.foundation.layout.*
+import android.os.VibrationEffect
+import android.os.Vibrator
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,18 +23,25 @@ import androidx.navigation.NavHostController
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.itemsIndexed
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
-import androidx.wear.compose.material.*
+import androidx.wear.compose.material.Button
+import androidx.wear.compose.material.Icon
+import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.RadioButton
+import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.ToggleChip
 import com.example.healthgrind.R
-import com.example.healthgrind.data.ProfileType
-import com.example.healthgrind.firebase.auth.register.SignUpViewModel
-import com.example.healthgrind.presentation.screens.Screen
+import com.example.healthgrind.firebase.auth.register.AccountViewModel
+import com.example.healthgrind.support.ProfileType
+import com.example.healthgrind.support.Screen
 
 @Composable
 fun ProfileInputScreen(
     navController: NavHostController,
-    viewModel: SignUpViewModel = hiltViewModel(),
-    pref: SharedPreferences
+    viewModel: AccountViewModel = hiltViewModel(),
+    pref: SharedPreferences,
+    vibrator: Vibrator
 ) {
+    val signupError = remember { mutableStateOf(false) }
     val listState = rememberScalingLazyListState(initialCenterItemIndex = 0)
     val radioOptions = ProfileType.getList()
     val radioBools = listOf(
@@ -59,6 +72,16 @@ fun ProfileInputScreen(
                 color = MaterialTheme.colors.onPrimary,
                 text = "Profil"
             )
+        }
+        item {
+            if (signupError.value) {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.error,
+                    text = "Bitte wähle dein Profil aus."
+                )
+            }
         }
 
         itemsIndexed(radioOptions) { index, option ->
@@ -91,17 +114,26 @@ fun ProfileInputScreen(
             // Confirm Button
             Button(
                 onClick = {
-                    viewModel.onProfileChange(profile)
-                    viewModel.onConfirmClick(
-                        navController,
-                        Screen.SkillInput.route,
-                        "profile",
-                        pref
-                    )
+                    vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
+
+                    signupError.value = false
+                    if (profile == "") {
+                        signupError.value = true
+                    }
+
+                    if (!signupError.value) {
+                        viewModel.onProfileChange(profile)
+                        viewModel.onConfirmClick(
+                            navController,
+                            Screen.NameInput.route,
+                            "profile",
+                            pref
+                        )
+                    }
                 }
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.check),
+                    painter = painterResource(id = R.drawable.arrow_right),
                     contentDescription = "Confirm",
                     modifier = Modifier
                         .size(24.dp)

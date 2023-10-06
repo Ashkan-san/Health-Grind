@@ -15,8 +15,20 @@ package com.example.healthgrind.presentation
  * TODO Kraft, Run, Walk, Outdoor Screens überarbeiten
  * TODO Alle User löschen impl
  *
- * TODO neuer RewardDialog
+ * TODO neuer RewardDialog DONE
+ *
+ * TODO Home Screen überarbeiten
+ *  TODO kleine Animation bei den RewardChips, so sparkling oder so
  *
  * SPORT
  * TODO Sportarten erkennen und so
+ *
+ *
+ * // JEDEN NUTZER IN FIRESTORE LÖSCHEN
+ * setInterval(() => {
+    document.getElementsByClassName('edit-account-button mat-focus-indicator mat-menu-trigger mat-icon-button mat-button-base')[0].click()
+    let deleteButtonPosition = document.getElementsByClassName('mat-focus-indicator mat-menu-item ng-star-inserted').length - 1
+    document.getElementsByClassName('mat-focus-indicator mat-menu-item ng-star-inserted')[deleteButtonPosition].click()
+    document.getElementsByClassName('confirm-button mat-focus-indicator mat-raised-button mat-button-base mat-warn')[0].click()
+}, 1000)
  */

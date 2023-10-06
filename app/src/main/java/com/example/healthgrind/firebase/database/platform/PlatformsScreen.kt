@@ -1,5 +1,7 @@
 package com.example.healthgrind.firebase.database.platform
 
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,15 +23,18 @@ import androidx.wear.compose.material.ChipDefaults
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import coil.compose.rememberAsyncImagePainter
+import coil.request.CachePolicy
 import coil.request.ImageRequest
-import com.example.healthgrind.data.loadPlatformImageFromStorage
-import com.example.healthgrind.presentation.screens.Screen
+import com.example.healthgrind.support.Screen
+import com.example.healthgrind.support.loadPlatformImageFromStorage
 
 @Composable
 fun PlatformsScreen(
     navController: NavHostController,
-    viewModel: PlatformViewModel = hiltViewModel()
+    viewModel: PlatformViewModel = hiltViewModel(),
+    vibrator: Vibrator
 ) {
+    val context = LocalContext.current
     val listState = rememberScalingLazyListState()
     val platformList = viewModel.platforms.collectAsState(initial = emptyList())
 
@@ -38,7 +43,6 @@ fun PlatformsScreen(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         state = listState
-
     ) {
         // TITLE
         item {
@@ -58,8 +62,14 @@ fun PlatformsScreen(
 
                 colors = ChipDefaults.imageBackgroundChipColors(
                     backgroundImagePainter = rememberAsyncImagePainter(
-                        model = ImageRequest.Builder(LocalContext.current)
+                        model =
+                        ImageRequest.Builder(context)
                             .data(loadPlatformImageFromStorage(item.image))
+                            //.networkCachePolicy(CachePolicy.ENABLED)
+                            .diskCachePolicy(CachePolicy.ENABLED)
+                            .memoryCachePolicy(CachePolicy.ENABLED)
+                            .diskCacheKey(item.image)
+                            .memoryCacheKey(item.image)
                             .build(),
                         contentScale = ContentScale.None
                     )
@@ -72,7 +82,10 @@ fun PlatformsScreen(
                     )
                 },
 
-                onClick = { navController.navigate("${Screen.Exercises.route}/${item.id}") }
+                onClick = {
+                    vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
+                    navController.navigate("${Screen.Exercises.route}/${item.id}")
+                }
             )
 
         }

@@ -1,4 +1,4 @@
-package com.example.healthgrind.firebase
+package com.example.healthgrind.firebase.general
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

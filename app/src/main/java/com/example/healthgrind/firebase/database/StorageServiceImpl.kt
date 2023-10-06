@@ -4,9 +4,10 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.healthgrind.firebase.auth.register.AccountService
 import com.example.healthgrind.firebase.auth.register.User
-import com.example.healthgrind.firebase.database.challenge.NewChallenge
+import com.example.healthgrind.firebase.database.challenge.Challenge
+import com.example.healthgrind.firebase.database.challenge.Statistics
 import com.example.healthgrind.firebase.database.platform.Platform
-import com.example.healthgrind.firebase.database.reward.NewReward
+import com.example.healthgrind.firebase.database.reward.Reward
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -29,6 +30,7 @@ class StorageServiceImpl @Inject constructor(
         private const val CHALLENGE_COLLECTION = "challenges"
         private const val REWARD_COLLECTION = "rewards"
         private const val PLATFORM_COLLECTION = "platforms"
+        private const val STATISTICS_COLLECTION = "statistics"
     }
 
     // USERS
@@ -81,26 +83,26 @@ class StorageServiceImpl @Inject constructor(
 
 
     // CHALLENGES
-    override val challenges: Flow<List<NewChallenge>>
+    override val challenges: Flow<List<Challenge>>
         get() =
             allChallengesCollection().snapshots()
                 .map { snapshot -> snapshot.toObjects() }
 
-    override suspend fun getChallenge(id: String): NewChallenge? =
+    override suspend fun getChallenge(id: String): Challenge? =
         allChallengesCollection().document(id).get().await().toObject()
 
-    override suspend fun getSpecificChallenges(exercise: String): Flow<List<NewChallenge>> {
+    override suspend fun getSpecificChallenges(exercise: String): Flow<List<Challenge>> {
         return allChallengesCollection().whereEqualTo("exerciseType", exercise)
             .snapshots().map { snapshot -> snapshot.toObjects() }
     }
 
-    override suspend fun saveChallenge(challenge: NewChallenge) {
+    override suspend fun saveChallenge(challenge: Challenge) {
         allChallengesCollection().add(challenge)
             .addOnSuccessListener { Log.d(TAG, "CHALLENGE successfully written!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }.await()
     }
 
-    override suspend fun updateChallenge(challenge: NewChallenge) {
+    override suspend fun updateChallenge(challenge: Challenge) {
         allChallengesCollection().document(challenge.id).set(challenge)
             .addOnSuccessListener { Log.d(TAG, "CHALLENGE successfully updated!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }.await()
@@ -111,21 +113,21 @@ class StorageServiceImpl @Inject constructor(
 
 
     // REWARDS
-    override val rewards: Flow<List<NewReward>>
+    override val rewards: Flow<List<Reward>>
         get() =
             currentRewardCollection().snapshots().map { snapshot -> snapshot.toObjects() }
 
 
-    override suspend fun getReward(id: String): NewReward? =
+    override suspend fun getReward(id: String): Reward? =
         currentRewardCollection().document(id).get().await().toObject()
 
-    override suspend fun saveReward(reward: NewReward) {
+    override suspend fun saveReward(reward: Reward) {
         currentRewardCollection().add(reward)
             .addOnSuccessListener { Log.d(TAG, "REWARD successfully written!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }.await()
     }
 
-    override suspend fun updateReward(reward: NewReward) {
+    override suspend fun updateReward(reward: Reward) {
         currentRewardCollection().document(reward.id).set(reward)
             .addOnSuccessListener { Log.d(TAG, "REWARD successfully updated!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }.await()
@@ -136,4 +138,12 @@ class StorageServiceImpl @Inject constructor(
 
 
     // EXTRA DATA
+    override suspend fun updateStats(stats: Statistics) {
+        currentUserDocument().collection(STATISTICS_COLLECTION).document("statistics").set(stats)
+            .addOnSuccessListener { Log.d(TAG, "STATISTICS successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }.await()
+    }
+
+    override suspend fun getStatistics(): Statistics? =
+        currentUserDocument().collection(STATISTICS_COLLECTION).document("statistics").get().await().toObject()
 }

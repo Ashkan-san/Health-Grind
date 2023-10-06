@@ -1,23 +1,21 @@
-package com.example.healthgrind.presentation.screens
+package com.example.healthgrind.support
 
 sealed class Screen(val route: String) {
-    object FirstStart : Screen("first")
+    object Intro : Screen("intro")
     object Start : Screen("start")
     object Debug : Screen("debug")
     object SignUp : Screen("signup")
+    object AllRewards : Screen("rewards")
+    object Permission : Screen("permission")
 
     object Platforms : Screen("platforms")
     object Exercises : Screen("exercises")
     object Challenges : Screen("challenges")
-    object TestReward : Screen("rewards")
+    object Reward : Screen("reward")
 
-    object Running : Screen("running")
+    object Run : Screen("run")
     object Walk : Screen("walk")
     object Strength : Screen("strength")
-    object RewardDialog : Screen("rewardDialog")
-
-    // TODO TEST
-    object Training : Screen("training")
 
     object PlayerInfo : Screen("playerInfo")
     object NameInput : Screen("nameInput")

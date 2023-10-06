@@ -1,6 +1,9 @@
-package com.example.healthgrind.presentation.screens
+package com.example.healthgrind.presentation.screens.input
 
 import android.content.SharedPreferences
+import android.os.VibrationEffect
+import android.os.Vibrator
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -19,14 +22,17 @@ import androidx.wear.compose.foundation.lazy.itemsIndexed
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.material.*
 import com.example.healthgrind.R
-import com.example.healthgrind.data.SkillType
-import com.example.healthgrind.firebase.auth.register.SignUpViewModel
+import com.example.healthgrind.firebase.auth.register.AccountViewModel
+import com.example.healthgrind.support.Screen
+import com.example.healthgrind.support.SkillType
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SkillInputScreen(
     navController: NavHostController,
-    viewModel: SignUpViewModel = hiltViewModel(),
-    pref: SharedPreferences
+    viewModel: AccountViewModel = hiltViewModel(),
+    pref: SharedPreferences,
+    vibrator: Vibrator
 ) {
     val listState = rememberScalingLazyListState(initialCenterItemIndex = 0)
     val radioOptions = SkillType.getList()
@@ -57,8 +63,14 @@ fun SkillInputScreen(
             ToggleChip(
                 modifier = Modifier.size(180.dp, 50.dp),
                 label = {
+                    var text = ""
+                    when (option) {
+                        "BEGINNER" -> text = "Anfänger"
+                        "ADVANCED" -> text = "Erfahrener"
+                        "PRO" -> text = "Profi"
+                    }
                     Text(
-                        text = option,
+                        text = text,
                         textAlign = TextAlign.Center
                     )
                 },
@@ -88,9 +100,6 @@ fun SkillInputScreen(
                     Icon(
                         painter = painterResource(id = id),
                         contentDescription = "Icon",
-//                        modifier = Modifier
-//                            .size(24.dp)
-//                            .wrapContentSize(align = Alignment.Center)
                     )
                 }
             )
@@ -99,6 +108,7 @@ fun SkillInputScreen(
             // Confirm Button
             Button(
                 onClick = {
+                    vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
                     viewModel.onSkillChange(skill)
                     viewModel.onConfirmClick(navController, Screen.Start.route, "skill", pref)
                 }

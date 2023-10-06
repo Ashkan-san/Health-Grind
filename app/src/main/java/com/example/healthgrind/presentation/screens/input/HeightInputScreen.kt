@@ -1,7 +1,19 @@
-package com.example.healthgrind.presentation.screens
+package com.example.healthgrind.presentation.screens.input
 
 import android.content.SharedPreferences
-import androidx.compose.foundation.layout.*
+import android.os.VibrationEffect
+import android.os.Vibrator
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -12,18 +24,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.wear.compose.material.*
+import androidx.wear.compose.material.Button
+import androidx.wear.compose.material.Icon
+import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.rememberPickerState
 import com.example.healthgrind.R
-import com.example.healthgrind.firebase.auth.register.SignUpViewModel
+import com.example.healthgrind.firebase.auth.register.AccountViewModel
+import com.example.healthgrind.support.Screen
 
 @Composable
 fun HeightInputScreen(
     navController: NavHostController,
-    viewModel: SignUpViewModel = hiltViewModel(),
-    pref: SharedPreferences
+    viewModel: AccountViewModel = hiltViewModel(),
+    pref: SharedPreferences,
+    vibrator: Vibrator
 ) {
     HeightPicker(
         onHeightConfirm = {
+            vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
             viewModel.onHeightChange(it)
             viewModel.onConfirmClick(navController, Screen.WeightInput.route, "height", pref)
         }

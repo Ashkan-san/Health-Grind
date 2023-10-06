@@ -1,9 +1,10 @@
 package com.example.healthgrind.firebase.database
 
 import com.example.healthgrind.firebase.auth.register.User
-import com.example.healthgrind.firebase.database.challenge.NewChallenge
+import com.example.healthgrind.firebase.database.challenge.Challenge
+import com.example.healthgrind.firebase.database.challenge.Statistics
 import com.example.healthgrind.firebase.database.platform.Platform
-import com.example.healthgrind.firebase.database.reward.NewReward
+import com.example.healthgrind.firebase.database.reward.Reward
 import kotlinx.coroutines.flow.Flow
 
 interface StorageService {
@@ -22,17 +23,20 @@ interface StorageService {
     suspend fun updatePlatform(platform: Platform)
 
     // CHALLENGES
-    val challenges: Flow<List<NewChallenge>>
+    val challenges: Flow<List<Challenge>>
 
-    suspend fun getSpecificChallenges(exercise: String): Flow<List<NewChallenge>>
-    suspend fun getChallenge(id: String): NewChallenge?
-    suspend fun saveChallenge(challenge: NewChallenge)
-    suspend fun updateChallenge(challenge: NewChallenge)
+    suspend fun getSpecificChallenges(exercise: String): Flow<List<Challenge>>
+    suspend fun getChallenge(id: String): Challenge?
+    suspend fun saveChallenge(challenge: Challenge)
+    suspend fun updateChallenge(challenge: Challenge)
+
+    suspend fun updateStats(stats: Statistics)
+    suspend fun getStatistics(): Statistics?
 
     // REWARDS
-    val rewards: Flow<List<NewReward>>
+    val rewards: Flow<List<Reward>>
 
-    suspend fun getReward(id: String): NewReward?
-    suspend fun saveReward(reward: NewReward)
-    suspend fun updateReward(reward: NewReward)
+    suspend fun getReward(id: String): Reward?
+    suspend fun saveReward(reward: Reward)
+    suspend fun updateReward(reward: Reward)
 }

@@ -3,7 +3,6 @@ package com.example.healthgrind.firebase.auth.register
 data class User(
     // AUTH DATA
     val id: String = "",
-    val isAnonymous: Boolean = true,
     var email: String = "",
     val password: String = "",
     var image: String = "Users/ash.jpg",
@@ -23,8 +22,8 @@ data class User(
 ) {
     operator fun iterator(): List<Pair<String, Any>> {
         return listOf(
-            "name" to name, "age" to age, "weight" to weight, "height" to height,
-            "gender" to gender, "skill" to skill, "level" to level
+            "Name" to name, "Alter" to age, "Gewicht" to weight, "Größe" to height,
+            "Geschlecht" to gender, "Sport-Level" to skill, "HealthGrind-Level" to level
         )
     }
 }

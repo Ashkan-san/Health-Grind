@@ -1,4 +1,4 @@
-package com.example.healthgrind.firebase
+package com.example.healthgrind.firebase.general
 
 import com.example.healthgrind.firebase.auth.debuglog.LogService
 import com.example.healthgrind.firebase.auth.debuglog.LogServiceImpl

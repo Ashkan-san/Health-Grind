@@ -24,7 +24,7 @@ class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth) : A
             val listener = FirebaseAuth.AuthStateListener { auth ->
                 // Profil Info des Firebase Nutzers wird geholt und in ein User Objekt gelegt
                 this.trySend(auth.currentUser?.let
-                { User(it.uid, it.isAnonymous, it.email!!) } ?: User())
+                { User(it.uid, it.email!!) } ?: User())
             }
 
             auth.addAuthStateListener(listener)

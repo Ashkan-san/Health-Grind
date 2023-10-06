@@ -1,6 +1,13 @@
 package com.example.healthgrind.presentation.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,15 +20,16 @@ import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.material.Card
 import androidx.wear.compose.material.Chip
+import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
-import com.example.healthgrind.data.LoadImageFromStorage
-import com.example.healthgrind.firebase.auth.register.SignUpViewModel
-import java.util.*
+import com.example.healthgrind.firebase.auth.register.AccountViewModel
+import com.example.healthgrind.support.LoadImageFromStorage
+import com.example.healthgrind.support.Screen
 
 @Composable
 fun PlayerInfoScreen(
     navController: NavHostController,
-    viewModel: SignUpViewModel = hiltViewModel()
+    viewModel: AccountViewModel = hiltViewModel()
 ) {
     viewModel.getUserDataFromDb()
     val user = viewModel.userState.value
@@ -42,12 +50,8 @@ fun PlayerInfoScreen(
             )
         }
         item {
-            Text(text = user.name)
+            Text(text = user.name, color = MaterialTheme.colors.secondaryVariant)
         }
-        item {
-            Text(text = "Level: " + user.level)
-        }
-
         item {
             Card(modifier = Modifier.fillMaxWidth(), enabled = false, onClick = {}) {
                 Column(
@@ -58,16 +62,28 @@ fun PlayerInfoScreen(
                     for ((key, value) in user.iterator()) {
                         Chip(
                             modifier = Modifier.fillMaxWidth(),
-                            label = { Text(key.capitalize(Locale.ROOT)) },
-                            secondaryLabel = { Text("$value") },
+                            label = { Text(key) },
+                            secondaryLabel = {
+                                var text = ""
+                                text = when (value) {
+                                    "MALE" -> "Mann"
+                                    "FEMALE" -> "Frau"
+                                    "OTHER" -> "Divers"
+                                    "BEGINNER" -> "Anfänger"
+                                    "ADVANCED" -> "Erfahrener"
+                                    "PRO" -> "Profi"
+                                    else -> value.toString()
+                                }
+                                Text(text)
+                            },
                             onClick = {
                                 when (key) {
-                                    "name" -> navController.navigate(Screen.NameInput.route)
-                                    "age" -> navController.navigate(Screen.AgeInput.route)
-                                    "weight" -> navController.navigate(Screen.WeightInput.route)
-                                    "height" -> navController.navigate(Screen.HeightInput.route)
-                                    "gender" -> navController.navigate(Screen.GenderInput.route)
-                                    "skill" -> navController.navigate(Screen.SkillInput.route)
+                                    "Name" -> navController.navigate(Screen.NameInput.route)
+                                    "Alter" -> navController.navigate(Screen.AgeInput.route)
+                                    "Gewicht" -> navController.navigate(Screen.WeightInput.route)
+                                    "Größe" -> navController.navigate(Screen.HeightInput.route)
+                                    "Geschlecht" -> navController.navigate(Screen.GenderInput.route)
+                                    "Sport-Level" -> navController.navigate(Screen.SkillInput.route)
                                     else -> {}
                                 }
                             }

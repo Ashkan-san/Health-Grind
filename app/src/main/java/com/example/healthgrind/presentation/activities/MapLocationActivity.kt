@@ -1,4 +1,4 @@
-package com.example.healthgrind.presentation
+package com.example.healthgrind.presentation.activities
 
 import android.Manifest
 import android.annotation.SuppressLint

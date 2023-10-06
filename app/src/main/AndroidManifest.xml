@@ -8,6 +8,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BODY_SENSORS" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
@@ -30,7 +33,7 @@
         android:label="HealthGrind"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault"
-        android:name=".firebase.HealthGrindApplication">
+        android:name=".firebase.general.HealthGrindApplication">
 
         <uses-library
             android:name="com.google.android.wearable"
@@ -40,7 +43,8 @@
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
 
-        <meta-data android:name="com.google.android.geo.API_KEY"
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}"/>
 
         <meta-data
@@ -49,7 +53,7 @@
 
         <!-- MAIN APP -->
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.activities.MainActivity"
             android:exported="true">
 
             <intent-filter>
@@ -64,7 +68,7 @@
 
         <!-- MAPS MY LOCATION -->
         <activity
-            android:name=".presentation.MapsLocationActivity"
+            android:name=".presentation.activities.MapsLocationActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
@@ -72,7 +76,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.MapActivity"
+            android:name=".presentation.activities.MapActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
@@ -81,22 +85,13 @@
         </activity>
 
         <!-- HEALTH -->
-        <activity
-            android:name=".presentation.HealthActivity"
+        <!--<activity
+            android:name=".presentation.activities.HealthActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".presentation.WalkActivity"
-            android:launchMode="singleInstance"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
+        </activity>-->
 
     </application>
 

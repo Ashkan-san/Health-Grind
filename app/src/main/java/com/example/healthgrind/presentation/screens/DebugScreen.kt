@@ -14,9 +14,9 @@ import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.Text
 import com.example.healthgrind.R
-import com.example.healthgrind.presentation.HealthActivity
-import com.example.healthgrind.presentation.MapActivity
-import com.example.healthgrind.presentation.MapsLocationActivity
+import com.example.healthgrind.presentation.activities.MapActivity
+import com.example.healthgrind.presentation.activities.MapsLocationActivity
+import com.example.healthgrind.support.Screen
 
 @Composable
 fun DebugScreen(navController: NavHostController) {
@@ -30,7 +30,14 @@ fun DebugScreen(navController: NavHostController) {
 
         item {
             Button(onClick = {
-                navController.navigate(Screen.TestReward.route)
+                navController.navigate(Screen.Permission.route)
+            }) {
+                Text(text = "Permission")
+            }
+        }
+        item {
+            Button(onClick = {
+                navController.navigate(Screen.AllRewards.route)
             }) {
                 Text(text = "Test Rewards")
             }
@@ -54,7 +61,7 @@ fun DebugScreen(navController: NavHostController) {
 
         item {
             Button(onClick = {
-                navController.navigate(Screen.Running.route)
+                navController.navigate(Screen.Run.route)
             }) {
                 Text(text = "Running")
             }
@@ -87,7 +94,7 @@ fun DebugScreen(navController: NavHostController) {
 
         item {
             Button(onClick = {
-                context.startActivity(Intent(context, HealthActivity::class.java))
+                //context.startActivity(Intent(context, HealthActivity::class.java))
             }) {
                 Text(text = "Health")
             }

@@ -1,17 +1,7 @@
-package com.example.healthgrind.data
-
-import com.example.healthgrind.firebase.database.challenge.Challenge
+package com.example.healthgrind.support
 
 enum class ExerciseType {
     RUN, WALK, STRENGTH, OUTDOOR
-}
-
-enum class GameType {
-    SMASH, FORTNITE, VALORANT, TEKKEN, STARDEW_VALLEY
-}
-
-enum class PlatformType {
-    NINTENDO, PLAYSTATION, STEAM, RIOT, PLAYSTORE, APPSTORE, FORTNITE, WARZONE
 }
 
 enum class SkillType {
@@ -39,7 +29,7 @@ enum class GenderType {
 }
 
 enum class ProfileType {
-    ARDIAN, ARIYAN, BRIAN, GERRIT, JILL, JOSEPH, JUSTUS, KJELL, OLIVER, QUAN;
+    ARDIAN, BRIAN, GERRIT, JILL, JOSEPH, JUSTUS, KJELL, LEO, OLIVER, QUAN;
 
     companion object {
         fun getList(): List<String> {
@@ -49,17 +39,3 @@ enum class ProfileType {
         }
     }
 }
-
-data class GameModel(
-    val id: Int,
-    val name: String,
-    val image: Int,
-    val challenges: List<Challenge> = listOf()
-)
-
-data class RewardModel(
-    val name: String,
-    val value: Int = 0,
-    val code: String = "",
-    val image: Int
-)

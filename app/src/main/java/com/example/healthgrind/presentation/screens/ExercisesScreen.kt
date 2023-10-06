@@ -1,8 +1,11 @@
 package com.example.healthgrind.presentation.screens
 
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,10 +21,11 @@ import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.example.healthgrind.R
-import com.example.healthgrind.data.ExerciseType
+import com.example.healthgrind.support.ExerciseType
+import com.example.healthgrind.support.Screen
 
 @Composable
-fun ExercisesScreen(navController: NavHostController, id: String?) {
+fun ExercisesScreen(navController: NavHostController, id: String?, vibrator: Vibrator) {
     val listState = rememberScalingLazyListState()
 
     // SCREEN AUFGEBAUT AUS 1 LAZYCOLUMN UND 2 LAZYROWS ALS KINDER
@@ -34,7 +38,9 @@ fun ExercisesScreen(navController: NavHostController, id: String?) {
     ) {
         item {
             Text(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 10.dp),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colors.onPrimary,
                 text = "Exercises"
@@ -49,6 +55,7 @@ fun ExercisesScreen(navController: NavHostController, id: String?) {
                 item {
                     Button(
                         onClick = {
+                            vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
                             navController.navigate("${Screen.Challenges.route}/${id}/${ExerciseType.RUN.name}")
                         }) {
                         Icon(
@@ -60,6 +67,7 @@ fun ExercisesScreen(navController: NavHostController, id: String?) {
                 item {
                     Button(
                         onClick = {
+                            vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
                             navController.navigate("${Screen.Challenges.route}/${id}/${ExerciseType.WALK.name}")
                         }) {
                         Icon(
@@ -79,6 +87,7 @@ fun ExercisesScreen(navController: NavHostController, id: String?) {
                 item {
                     Button(
                         onClick = {
+                            vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
                             navController.navigate("${Screen.Challenges.route}/${id}/${ExerciseType.STRENGTH.name}")
                         }) {
                         Icon(
@@ -90,6 +99,7 @@ fun ExercisesScreen(navController: NavHostController, id: String?) {
                 item {
                     Button(
                         onClick = {
+                            vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
                             navController.navigate("${Screen.Challenges.route}/${id}/${ExerciseType.OUTDOOR.name}")
                         }) {
                         Icon(

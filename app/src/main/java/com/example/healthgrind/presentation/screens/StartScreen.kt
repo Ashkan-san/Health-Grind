@@ -1,12 +1,15 @@
 package com.example.healthgrind.presentation.screens
 
 import android.content.SharedPreferences
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,62 +19,83 @@ import androidx.navigation.NavHostController
 import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.Icon
 import com.example.healthgrind.R
+import com.example.healthgrind.firebase.database.challenge.ChallengeViewModel
+import com.example.healthgrind.support.Screen
 
 @Composable
-fun StartScreen(navController: NavHostController, pref: SharedPreferences) {
+fun StartScreen(
+    navController: NavHostController,
+    pref: SharedPreferences,
+    viewModel: ChallengeViewModel,
+    vibrator: Vibrator
+) {
     pref.edit().putBoolean("firstStart", false).apply()
+    viewModel.getStatisticsFromFirestore()
 
-    LazyColumn(
+    Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        userScrollEnabled = false,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        item {
-            Image(
-                painter = painterResource(R.drawable.logo),
-                contentDescription = "Logo",
-                modifier = Modifier
-                    .size(100.dp)
-            )
-        }
-        item {
-            LazyRow(
-                modifier = Modifier,
-                horizontalArrangement = Arrangement.spacedBy(5.dp),
-                userScrollEnabled = false
+        Image(
+            painter = painterResource(R.drawable.logo),
+            contentDescription = "Logo",
+            modifier = Modifier
+                .size(100.dp)
+        )
+        Row(
+            modifier = Modifier.padding(bottom = 25.dp),
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            //verticalAlignment = Alignment.CenterVertically
+        ) {
+            Button(
+                onClick = {
+                    vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
+                    navController.navigate(Screen.PlayerInfo.route)
+                }
             ) {
-                item {
-                    Button(onClick = {
-                        navController.navigate(Screen.Platforms.route)
-                    }) {
-                        Icon(
-                            painter = painterResource(R.drawable.platform),
-                            contentDescription = "Platforms"
-                        )
-                    }
-                }
-                item {
-                    Button(onClick = {
-                        navController.navigate(Screen.PlayerInfo.route)
-                    }) {
-                        Icon(
-                            painter = painterResource(R.drawable.player),
-                            contentDescription = "Player Info"
-                        )
-                    }
-                }
-                item {
-                    Button(onClick = {
-                        navController.navigate(Screen.Debug.route)
-                    }) {
-                        Icon(
-                            painter = painterResource(R.drawable.debug),
-                            contentDescription = "Debug"
-                        )
-                    }
-                }
+                Icon(
+                    painter = painterResource(R.drawable.player),
+                    contentDescription = "Player Info"
+                )
             }
+
+            Button(
+                onClick = {
+                    vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
+                    navController.navigate(Screen.Platforms.route)
+                }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.platform),
+                    contentDescription = "Platforms"
+                )
+            }
+
+            Button(
+                onClick = {
+                    vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
+                    navController.navigate(Screen.AllRewards.route)
+                }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.reward),
+                    contentDescription = "Rewards"
+                )
+            }
+
+            /*Button(
+                onClick = {
+                    val vibrationEffect = VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK)
+                    vibrator.vibrate(vibrationEffect)
+                    navController.navigate(Screen.Debug.route)
+                }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.debug),
+                    contentDescription = "Debug"
+                )
+            }*/
         }
     }
 }

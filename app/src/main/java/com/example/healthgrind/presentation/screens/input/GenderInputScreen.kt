@@ -1,7 +1,13 @@
-package com.example.healthgrind.presentation.screens
+package com.example.healthgrind.presentation.screens.input
 
 import android.content.SharedPreferences
-import androidx.compose.foundation.layout.*
+import android.os.VibrationEffect
+import android.os.Vibrator
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,16 +23,23 @@ import androidx.navigation.NavHostController
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.itemsIndexed
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
-import androidx.wear.compose.material.*
+import androidx.wear.compose.material.Button
+import androidx.wear.compose.material.Icon
+import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.RadioButton
+import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.ToggleChip
 import com.example.healthgrind.R
-import com.example.healthgrind.data.GenderType
-import com.example.healthgrind.firebase.auth.register.SignUpViewModel
+import com.example.healthgrind.firebase.auth.register.AccountViewModel
+import com.example.healthgrind.support.GenderType
+import com.example.healthgrind.support.Screen
 
 @Composable
 fun GenderInputScreen(
     navController: NavHostController,
-    viewModel: SignUpViewModel = hiltViewModel(),
-    pref: SharedPreferences
+    viewModel: AccountViewModel = hiltViewModel(),
+    pref: SharedPreferences,
+    vibrator: Vibrator
 ) {
     val listState = rememberScalingLazyListState(initialCenterItemIndex = 0)
     val radioOptions = GenderType.getList()
@@ -57,8 +70,14 @@ fun GenderInputScreen(
             ToggleChip(
                 modifier = Modifier.size(180.dp, 50.dp),
                 label = {
+                    var text = ""
+                    when (option) {
+                        "MALE" -> text = "Mann"
+                        "FEMALE" -> text = "Frau"
+                        "OTHER" -> text = "Divers"
+                    }
                     Text(
-                        text = option,
+                        text = text,
                         textAlign = TextAlign.Center
                     )
                 },
@@ -95,10 +114,11 @@ fun GenderInputScreen(
             // Confirm Button
             Button(
                 onClick = {
+                    vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
                     viewModel.onGenderChange(gender)
                     viewModel.onConfirmClick(
                         navController,
-                        Screen.ProfileInput.route,
+                        Screen.SkillInput.route,
                         "gender",
                         pref
                     )
