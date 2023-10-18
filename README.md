@@ -26,6 +26,8 @@ HealthGrind ist eine mit Hilfe von Jetpack Compose Wear, Kotlin und Firebase ent
 * [![Jetpack Compose][Jetpack-Image]][Jetpack-Website]
 * [![Kotlin][Kotlin-Image]][Kotlin-Website]
 * [![Firebase][Firebase-Image]][Firebase-Website]
+* [![Intellij][Intellij-Image]][Intellij-Website]
+* [![Wearos][Wearos-Image]][Wearos-Website]
 
 
 <!-- AUFBAU -->
@@ -40,6 +42,8 @@ TODO: Bilder der App
 [Jetpack-Website]: https://developer.android.com/jetpack/compose?gclid=Cj0KCQjwhL6pBhDjARIsAGx8D59HFLvsEPK0q1coz93YbJ3k1icM2FN5k0UP3wCPunOPGAeSs8yNT2UaAgU0EALw_wcB&gclsrc=aw.ds
 [Kotlin-Website]: https://kotlinlang.org/
 [Firebase-Website]: https://firebase.google.com/
+[Intellij-Website]: https://www.jetbrains.com/de-de/idea/
+[Wearos-Website]: https://wearos.google.com/intl/de_de/
 
 <!-- MEINE BILDER -->
 [Healthgrind-Logo]: images/logo.png
@@ -48,3 +52,5 @@ TODO: Bilder der App
 [Jetpack-Image]: https://img.shields.io/badge/Jetpack%20Compose-4285F4.svg?style=for-the-badge&logo=Jetpack-Compose&logoColor=white
 [Kotlin-Image]: https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white
 [Firebase-Image]: https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white
+[Intellij-Image]: https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white
+[Wearos-Image]: https://img.shields.io/badge/-Wear%20OS-4285F4?style=for-the-badge&logo=wear-os&logoColor=white
