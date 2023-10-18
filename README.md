@@ -15,7 +15,7 @@
 <!-- ABOUT THE PROJECT -->
 ## Über das Projekt
 
-[![Start Screen][screenshot-start]]
+![Start Screen][screenshot-start]
 
 HealthGrind ist eine mit Hilfe von Jetpack Compose Wear, Kotlin und Firebase entwickelte Wearable App für WearOs-Geräte. Das Konzept ist, dass der Nutzer sportliche Übungen in Form von "Challenges" absolviert, diese mit Hilfe der Smartwatch-Sensoren aufgezeichnet werden und bei erfolgreichem Abschluss von genügend Challenges Rewards in Form von In-Game-Artikeln freischaltet. Das Ziel ist es somit Gamer zu mehr Sport zu motivieren.
 
@@ -29,9 +29,9 @@ HealthGrind ist eine mit Hilfe von Jetpack Compose Wear, Kotlin und Firebase ent
 
 
 <!-- AUFBAU -->
-## Usage
+## Aufbau der App
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+TODO: Bilder der App
 
 
 <!-- MEINE LINKS -->
