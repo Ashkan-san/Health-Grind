@@ -43,7 +43,7 @@ Use this space to show useful examples of how a project can be used. Additional 
 
 <!-- MEINE BILDER -->
 [Healthgrind-Logo]: images/logo.png
-[Screenshot-Start]: images/main.png
+[Screenshot-Start]: images/start.png
 
 [Jetpack-Image]: https://img.shields.io/badge/Jetpack%20Compose-4285F4.svg?style=for-the-badge&logo=Jetpack-Compose&logoColor=white
 [Kotlin-Image]: https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white
