@@ -33,7 +33,22 @@ HealthGrind ist eine mit Hilfe von Jetpack Compose Wear, Kotlin und Firebase ent
 <!-- AUFBAU -->
 ## Aufbau der App
 
-TODO: Bilder der App
+Ein Werbevideo für die App, im Rahmen des Wahlpflichtfachs "Health Informatics" zusammen mit Joseph Abasszada und Oliver Tano Schlichting gedreht.
+[![Werbevideo](https://img.youtube.com/vi/5COvqCY2ekk&ab_channel=Ashman/0.jpg)](https://www.youtube.com/watch?v=5COvqCY2ekk&ab_channel=Ashman)
+
+
+Bilder der App
+
+![Profile Screen][Screenshot-Start]
+![Rewards Screen][Screenshot-Rewards]
+![Games Screen][Screenshot-Games]
+![Exercises Screen][Screenshot-Exercises]
+![Challenges Screen][Screenshot-Challenges]
+![Gehen Screen][Screenshot-Gehen]
+![Kraft Screen][Screenshot-Kraft]
+![Laufen Screen][Screenshot-Laufen]
+![Maps Screen][Screenshot-Maps]
+![Completed Screen][Screenshot-Complete]
 
 
 <!-- MEINE LINKS -->
@@ -48,6 +63,16 @@ TODO: Bilder der App
 <!-- MEINE BILDER -->
 [Healthgrind-Logo]: images/logo.png
 [Screenshot-Start]: images/start.png
+[Screenshot-Challenges]: images/challenges.png
+[Screenshot-Profile]: images/profile.png
+[Screenshot-Rewards]: images/rewards.png
+[Screenshot-Complete]: images/complete.png
+[Screenshot-Exercises]: images/exercises.png
+[Screenshot-Games]: images/games.png
+[Screenshot-Gehen]: images/gehen.png
+[Screenshot-Kraft]: images/kraft.png
+[Screenshot-Laufen]: images/laufen.png
+[Screenshot-Maps]: images/maps.png
 
 [Jetpack-Image]: https://img.shields.io/badge/Jetpack%20Compose-4285F4.svg?style=for-the-badge&logo=Jetpack-Compose&logoColor=white
 [Kotlin-Image]: https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white
