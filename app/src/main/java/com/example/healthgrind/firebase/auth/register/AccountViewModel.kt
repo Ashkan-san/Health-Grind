@@ -12,6 +12,7 @@ import com.example.healthgrind.firebase.database.reward.Reward
 import com.example.healthgrind.firebase.general.HealthGrindViewModel
 import com.example.healthgrind.support.Screen
 import com.example.healthgrind.support.createAllChallengesForUser
+import com.example.healthgrind.support.createOptionalChallengesForUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -60,13 +61,13 @@ class AccountViewModel @Inject constructor(
                 )
                 // REWARDS ERSTELLEN UND ZUORDNEN
                 reward1 = Reward(
-                    title = "10€ PS Store Guthaben",
-                    value = "",
+                    title = "10€ Playstation Store Guthaben",
+                    value = "A4G2-LTFJ-DKJN",
                     image = "Rewards/cod-code.jpg"
                 )
                 reward2 = Reward(
-                    title = "10€ PS Store Guthaben",
-                    value = "",
+                    title = "10€ Playstation Store Guthaben",
+                    value = "9CXF-T8G2-LXKT",
                     image = "Rewards/cod-code.jpg"
                 )
                 imagePath += "ardian.jpg"
@@ -78,12 +79,12 @@ class AccountViewModel @Inject constructor(
                 )
                 reward1 = Reward(
                     title = "10€ Steam Store Guthaben",
-                    value = "",
+                    value = "2GRQE-W2WVD-0Y78D",
                     image = "Rewards/steam-code.png"
                 )
                 reward2 = Reward(
                     title = "10€ Steam Store Guthaben",
-                    value = "",
+                    value = "MZ89N-N8D69-A7XNZ",
                     image = "Rewards/steam-code.png"
                 )
                 imagePath += "brian.jpg"
@@ -94,13 +95,13 @@ class AccountViewModel @Inject constructor(
                     image = "Platforms/playstation.jpg"
                 )
                 reward1 = Reward(
-                    title = "10€ PS Store Guthaben",
-                    value = "",
+                    title = "10€ Playstation Store Guthaben",
+                    value = "MGBX-R4FJ-EL8D",
                     image = "Rewards/cod-code.jpg"
                 )
                 reward2 = Reward(
-                    title = "10€ PS Store Guthaben",
-                    value = "",
+                    title = "10€ Playstation Store Guthaben",
+                    value = "XA7R-J6LR-CTFA",
                     image = "Rewards/cod-code.jpg"
                 )
                 imagePath += "gerrit.jpg"
@@ -112,12 +113,12 @@ class AccountViewModel @Inject constructor(
                 )
                 reward1 = Reward(
                     title = "10€ Steam Store Guthaben",
-                    value = "",
+                    value = "AQZD4-QK20I-EVI2X",
                     image = "Rewards/steam-code.png"
                 )
                 reward2 = Reward(
                     title = "10€ Steam Store Guthaben",
-                    value = "",
+                    value = "0WA9E-YEI3C-29FGY",
                     image = "Rewards/steam-code.png"
                 )
                 imagePath += "jill.jpg"
@@ -128,13 +129,13 @@ class AccountViewModel @Inject constructor(
                     image = "Platforms/playstation.jpg"
                 )
                 reward1 = Reward(
-                    title = "10€ PS Store Guthaben",
-                    value = "",
+                    title = "10€ Playstation Store Guthaben",
+                    value = "TPA2-7NME-NHNR",
                     image = "Rewards/cod-code.jpg"
                 )
                 reward2 = Reward(
-                    title = "10€ PS Store Guthaben",
-                    value = "",
+                    title = "10€ Playstation Store Guthaben",
+                    value = "7RNN-TPDR-9AAH",
                     image = "Rewards/cod-code.jpg"
                 )
                 imagePath += "joseph.jpg"
@@ -146,12 +147,12 @@ class AccountViewModel @Inject constructor(
                 )
                 reward1 = Reward(
                     title = "10€ Steam Store Guthaben",
-                    value = "",
+                    value = "AWGA6-XJ2WN-9DJQW",
                     image = "Rewards/steam-code.png"
                 )
                 reward2 = Reward(
                     title = "10€ Steam Store Guthaben",
-                    value = "",
+                    value = "BFBGR-7VLQT-CCLGN",
                     image = "Rewards/steam-code.png"
                 )
                 imagePath += "justus.jpg"
@@ -163,17 +164,16 @@ class AccountViewModel @Inject constructor(
                 )
                 reward1 = Reward(
                     title = "10€ Riot Points",
-                    value = "",
+                    value = "RA-FR56773GWU9GAQGV",
                     image = "Rewards/riot-code.jpg"
                 )
                 reward2 = Reward(
                     title = "10€ Riot Points",
-                    value = "",
+                    value = "RA-CMTX23W6S8D2TMF3",
                     image = "Rewards/riot-code.jpg"
                 )
                 imagePath += "kjell.jpg"
             }
-
             "LEO" -> {
                 platform = Platform(
                     name = "STEAM STORE",
@@ -181,12 +181,12 @@ class AccountViewModel @Inject constructor(
                 )
                 reward1 = Reward(
                     title = "10€ Steam Store Guthaben",
-                    value = "",
+                    value = "66K0P-XFRQW-QXYTC",
                     image = "Rewards/steam-code.png"
                 )
                 reward2 = Reward(
                     title = "10€ Steam Store Guthaben",
-                    value = "",
+                    value = "TY0Z8-5EGLY-N5QEG",
                     image = "Rewards/steam-code.png"
                 )
                 imagePath += "leo.jpg"
@@ -198,13 +198,13 @@ class AccountViewModel @Inject constructor(
                     image = "Platforms/playstation.jpg"
                 )
                 reward1 = Reward(
-                    title = "10€ PS Store Guthaben",
-                    value = "",
+                    title = "10€ Playstation Store Guthaben",
+                    value = "3J9X-9HEJ-9KN9",
                     image = "Rewards/playstation-code.png"
                 )
                 reward2 = Reward(
-                    title = "10€ PS Store Guthaben",
-                    value = "",
+                    title = "10€ Playstation Store Guthaben",
+                    value = "D6QM-4PQ5-4DHR",
                     image = "Rewards/playstation-code.png"
                 )
                 imagePath += "oliver.jpg"
@@ -216,12 +216,12 @@ class AccountViewModel @Inject constructor(
                 )
                 reward1 = Reward(
                     title = "10€ Riot Points",
-                    value = "",
+                    value = "RA-FQZHBSPVZ7L8Z5AR",
                     image = "Rewards/riot-code.jpg"
                 )
                 reward2 = Reward(
                     title = "10€ Riot Points",
-                    value = "",
+                    value = "RA-FQZN2TS9JRURX8YW",
                     image = "Rewards/riot-code.jpg"
                 )
                 imagePath += "quan.jpg"
@@ -253,6 +253,11 @@ class AccountViewModel @Inject constructor(
 
             // ALLE CHALLENGES ERSTELLEN
             for (x in createAllChallengesForUser()) {
+                storageService.saveChallenge(x)
+            }
+
+            // OPTIONALE CHALLENGES ERSTELLEN
+            for (x in createOptionalChallengesForUser()) {
                 storageService.saveChallenge(x)
             }
 

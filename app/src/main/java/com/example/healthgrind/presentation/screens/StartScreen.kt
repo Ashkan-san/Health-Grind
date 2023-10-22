@@ -1,5 +1,6 @@
 package com.example.healthgrind.presentation.screens
 
+import android.app.usage.UsageStatsManager
 import android.content.SharedPreferences
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -27,10 +28,13 @@ fun StartScreen(
     navController: NavHostController,
     pref: SharedPreferences,
     viewModel: ChallengeViewModel,
-    vibrator: Vibrator
+    vibrator: Vibrator,
+    usageStatsManager: UsageStatsManager
 ) {
     pref.edit().putBoolean("firstStart", false).apply()
     viewModel.getStatisticsFromFirestore()
+
+    viewModel.updateUsageTime(usageStatsManager)
 
     Column(
         modifier = Modifier.fillMaxSize(),

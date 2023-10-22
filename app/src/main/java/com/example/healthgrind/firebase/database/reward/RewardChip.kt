@@ -31,7 +31,8 @@ fun RewardChip(
             Text(
                 text = reward.title,
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .basicMarquee(),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )

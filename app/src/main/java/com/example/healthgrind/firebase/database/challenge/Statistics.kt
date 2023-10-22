@@ -5,7 +5,6 @@ data class Statistics(
     var mandatoryCount: Int = 0,
     var optionalCount: Int = 0,
     var mandatoryGoal: Int = 5,
-    var completedSteps: Int = 0
-
-    // TODO evt Nutzungszeit,
+    var completedSteps: Int = 0,
+    var usageTime: Long = 0L
 )

@@ -2,6 +2,7 @@ package com.example.healthgrind.support
 
 import android.Manifest
 import android.app.RemoteInput
+import android.app.usage.UsageStatsManager
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.hardware.Sensor
@@ -63,7 +64,27 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import java.util.Calendar
 import java.util.concurrent.TimeUnit
+
+fun getUsageTime(usageStatsManager: UsageStatsManager): Long {
+    val cal = Calendar.getInstance()
+    cal.add(Calendar.MONTH, -1)
+    val queryUsageStats = usageStatsManager.queryAndAggregateUsageStats(
+        cal.timeInMillis,
+        System.currentTimeMillis()
+    )
+    val totalUsageTime = mutableStateOf(0L)
+
+    for (e in queryUsageStats) {
+        if (e.key == "com.example.healthgrind") {
+            totalUsageTime.value = e.value.totalTimeInForeground / 60000
+            break
+        }
+    }
+    println("TIME USAGE IN MINUTES: ${totalUsageTime.value}")
+    return totalUsageTime.value
+}
 
 @Composable
 fun TextInput(
@@ -144,6 +165,7 @@ fun MultiplePermissions() {
             Manifest.permission.BODY_SENSORS,
             Manifest.permission.ACTIVITY_RECOGNITION,
             Manifest.permission.ACCESS_FINE_LOCATION,
+            //Manifest.permission.PACKAGE_USAGE_STATS
         )
     )
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -468,6 +490,65 @@ fun loadPlatformImageFromStorage(imagePath: String): String {
     return link
 }
 
+fun createOptionalChallengesForUser(): List<Challenge> {
+    return listOf(
+        Challenge(
+            title = "Schritte",
+            mandatory = false,
+            exerciseType = ExerciseType.WALK,
+            goal = 5000,
+        ),
+        Challenge(
+            title = "Schritte",
+            mandatory = false,
+            exerciseType = ExerciseType.WALK,
+            goal = 5000,
+        ),
+        Challenge(
+            title = "Laufen",
+            mandatory = false,
+            exerciseType = ExerciseType.RUN,
+            goal = 60000 * 30,
+        ),
+        Challenge(
+            title = "Laufen",
+            mandatory = false,
+            exerciseType = ExerciseType.RUN,
+            goal = 60000 * 30,
+        ),
+        Challenge(
+            title = "Handstand",
+            mandatory = false,
+            exerciseType = ExerciseType.STRENGTH,
+            goal = 1,
+        ),
+        Challenge(
+            title = "Kopfstand",
+            mandatory = false,
+            exerciseType = ExerciseType.STRENGTH,
+            goal = 1,
+        ),
+        Challenge(
+            title = "Radschlag",
+            mandatory = false,
+            exerciseType = ExerciseType.STRENGTH,
+            goal = 1,
+        ),
+        Challenge(
+            title = "Muscle Up",
+            mandatory = false,
+            exerciseType = ExerciseType.STRENGTH,
+            goal = 1,
+        ),
+        Challenge(
+            title = "Spagat",
+            mandatory = false,
+            exerciseType = ExerciseType.STRENGTH,
+            goal = 1,
+        ),
+    )
+}
+
 fun createAllChallengesForUser(): List<Challenge> {
     return listOf(
         Challenge(
@@ -547,8 +628,6 @@ fun createAllChallengesForUser(): List<Challenge> {
             mandatory = true,
             exerciseType = ExerciseType.STRENGTH,
             goal = 50,
-        ),
-
-
         )
+    )
 }

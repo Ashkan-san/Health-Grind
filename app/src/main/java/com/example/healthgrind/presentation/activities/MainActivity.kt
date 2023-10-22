@@ -1,10 +1,18 @@
 package com.example.healthgrind.presentation.activities
 
+import android.app.AppOpsManager
+import android.app.usage.UsageStats
+import android.app.usage.UsageStatsManager
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.hardware.SensorManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Vibrator
+import android.provider.Settings
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,14 +33,17 @@ import com.example.healthgrind.presentation.screens.input.*
 import com.example.healthgrind.presentation.theme.HealthGrindTheme
 import com.example.healthgrind.support.MultiplePermissions
 import com.example.healthgrind.support.Screen
+import com.example.healthgrind.support.getUsageTime
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Calendar
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     lateinit var navController: NavHostController
     private lateinit var pref: SharedPreferences
     private lateinit var sensorManager: SensorManager
+    private lateinit var usageStatsManager: UsageStatsManager
     private lateinit var vibrator: Vibrator
     private lateinit var challengeViewModel: ChallengeViewModel
 
@@ -43,13 +54,15 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             HealthGrindTheme {
-                MultiplePermissions()
-
+                usageStatsManager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
                 sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
                 vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                 navController = rememberSwipeDismissableNavController()
                 pref = getSharedPreferences("pref", MODE_PRIVATE)
                 challengeViewModel = hiltViewModel()
+
+                //StatsPermission()
+                MultiplePermissions()
 
                 // INTRODUCTION WENN FIRST START
                 if (pref.getBoolean("firstStart", true)) {
@@ -59,6 +72,19 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun StatsPermission() {
+        val appOps = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+        val mode = appOps.unsafeCheckOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, android.os.Process.myUid(), packageName)
+        val granted = mode == AppOpsManager.MODE_ALLOWED
+
+        //if (!granted) {
+            Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS).apply {
+                //this.setData(Uri.fromParts("com.example.healthgrind", packageName, null))
+                startActivity(this)
+            }
+        //}
     }
 
     @Composable
@@ -77,7 +103,13 @@ class MainActivity : ComponentActivity() {
         ) {
             // 1. INTRO UND START SCREEN
             composable(Screen.Start.route) {
-                StartScreen(navController = navController, pref = pref, challengeViewModel, vibrator = vibrator)
+                StartScreen(
+                    navController = navController,
+                    pref = pref,
+                    challengeViewModel,
+                    vibrator = vibrator,
+                    usageStatsManager
+                )
             }
             composable(Screen.Intro.route) {
                 IntroductionScreen(navController = navController, vibrator = vibrator)

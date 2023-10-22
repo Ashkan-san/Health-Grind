@@ -1,5 +1,6 @@
 package com.example.healthgrind.firebase.database.challenge
 
+import android.app.usage.UsageStatsManager
 import android.content.ContentValues.TAG
 import android.os.CountDownTimer
 import android.util.Log
@@ -8,6 +9,7 @@ import com.example.healthgrind.firebase.auth.debuglog.LogService
 import com.example.healthgrind.firebase.database.StorageService
 import com.example.healthgrind.firebase.general.HealthGrindViewModel
 import com.example.healthgrind.support.ExerciseType
+import com.example.healthgrind.support.getUsageTime
 import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -25,6 +27,7 @@ class ChallengeViewModel @Inject constructor(
 
     val statisticsState = mutableStateOf(Statistics())
     val allSteps = mutableStateOf(0)
+    val usageTime = mutableStateOf(0L)
 
     var countDownTimer: CountDownTimer? = null
     var isPlaying = mutableStateOf(false)
@@ -102,11 +105,16 @@ class ChallengeViewModel @Inject constructor(
         if (challenge.mandatory) statisticsState.value.mandatoryCount += 1 else statisticsState.value.optionalCount += 1
 
         statisticsState.value.completedSteps = allSteps.value
+        statisticsState.value.usageTime = usageTime.value
 
         launchCatching {
             storageService.updateChallenge(currentChallengeState.value)
             storageService.updateStats(statisticsState.value)
         }
+    }
+
+    fun updateUsageTime(usageStatsManager: UsageStatsManager) {
+        usageTime.value = getUsageTime(usageStatsManager)
     }
 
     fun updateAllSteps(value: Int) {

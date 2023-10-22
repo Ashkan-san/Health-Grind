@@ -12,7 +12,7 @@ open class HealthGrindViewModel(private val logService: LogService) : ViewModel(
         viewModelScope.launch(
             CoroutineExceptionHandler { _, throwable ->
                 if (snackbar) {
-                    println(throwable)
+                    //println(throwable)
                     //SnackbarManager.showMessage(throwable.toSnackbarMessage())
                 }
                 logService.logNonFatalCrash(throwable)
