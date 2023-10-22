@@ -37,3 +37,5 @@ output.json
 #NDK
 obj/
 .externalNativeBuild
+
+/app/src/main/java/com/example/healthgrind/firebase/auth/register/AccountViewModel.kt
