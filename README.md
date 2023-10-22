@@ -34,7 +34,7 @@ HealthGrind ist eine mit Hilfe von Jetpack Compose Wear, Kotlin und Firebase ent
 ## Aufbau der App
 
 Ein Werbevideo für die App, im Rahmen des Wahlpflichtfachs "Health Informatics" zusammen mit Joseph Abasszada und Oliver Tano Schlichting gedreht.
-[![Werbevideo](https://img.youtube.com/vi/5COvqCY2ekk&ab_channel=Ashman/0.jpg)](https://www.youtube.com/watch?v=5COvqCY2ekk&ab_channel=Ashman)
+[![Werbevideo](https://img.youtube.com/vi/5COvqCY2ekk&ab/0.jpg)](https://www.youtube.com/watch?v=5COvqCY2ekk&ab_channel=Ashman)
 
 
 Bilder der App
